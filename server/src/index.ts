@@ -6,7 +6,7 @@ import cors from 'cors';
 
 const app = express();
 
-app.use(cors()); // Adicione isto para habilitar CORS
+app.use(cors());
 
 app.use('/graphql', graphqlHTTP({
   schema: schema,

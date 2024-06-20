@@ -20,12 +20,13 @@ const JokeByCategory: React.FC = () => {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           placeholder="Enter category"
+          name="category" // Certifique-se de que o atributo 'name' está definido corretamente
         />
         <button type="submit">Get Joke</button>
       </form>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      {data && <p>{data.getChuckNorrisJokeByCategory}</p>}
+      {data && <p className="category-joke">{data.getChuckNorrisJokeByCategory}</p>}
     </div>
   );
 };

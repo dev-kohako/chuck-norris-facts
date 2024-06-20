@@ -9,7 +9,7 @@ const Categories: React.FC = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
+    <div className='bg-red-700'>
       <h2>Categories</h2>
       <ul>
         {data.getChuckNorrisCategories.map((category: string) => (
