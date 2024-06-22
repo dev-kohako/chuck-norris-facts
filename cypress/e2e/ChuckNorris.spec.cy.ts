@@ -1,24 +1,24 @@
 // cypress/e2e/ChuckNorris.spec.cy.ts
 /// <reference types="cypress" />
 
-describe('Chuck Norris Facts Application', () => {
-  beforeEach(() => {
-    cy.visit('http://localhost:3000');
+describe('Chuck Norris Facts', () => {
+  it('loads a random fact', () => {
+    cy.visit('http://localhost:3000/');
+    cy.contains('Chuck Norris Random Fact');
+    cy.contains('Loading Fact...');
   });
 
-  it('should display a random Chuck Norris fact', () => {
-    cy.get('.random-fact', { timeout: 5000 }).should('not.be.empty');
-  });  
-
-  it('should display categories', () => {
-    cy.contains('Categories', { timeout: 5000 });
-    cy.get('.bg-red-700 ul li', { timeout: 5000 }).should('have.length.greaterThan', 0);
+  it('searches facts by free text', () => {
+    cy.visit('http://localhost:3000/');
+    cy.get('input[name="freeText"]').type('funny');
+    cy.get('button[type="submit"]').click();
+    cy.contains('Loading Fact...');
   });
 
-  it('should display a joke for a selected category', () => {
-    const category = 'animal';
-    cy.get('input[name="category"]', { timeout: 5000 }).type(category);
-    cy.contains('Get Joke', { timeout: 5000 }).click();
-    cy.get('.category-joke', { timeout: 5000 }).should('not.be.empty');
+  it('fetches fact by category', () => {
+    cy.visit('http://localhost:3000/');
+    cy.contains('Get Categories').click();
+    cy.contains('Dev').click();
+    cy.contains('Loading Fact...');
   });
 });

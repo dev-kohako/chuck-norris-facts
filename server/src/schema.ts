@@ -4,7 +4,8 @@ const schema = buildSchema(`
   type Query {
     getChuckNorrisFact: String
     getChuckNorrisCategories: [String]
-    getChuckNorrisJokeByCategory(category: String!): String
+    getChuckNorrisFactByCategory(category: String!): String
+    searchFacts(query: String!): String
   }
 `);
 

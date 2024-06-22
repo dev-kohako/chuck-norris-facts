@@ -19,13 +19,22 @@ export const root = {
       throw new Error('Failed to fetch Chuck Norris categories');
     }
   },
-  getChuckNorrisJokeByCategory: async ({ category }: { category: string }) => {
+  getChuckNorrisFactByCategory: async ({ category }: { category: string }) => {
     try {
       const response = await axios.get(`https://api.chucknorris.io/jokes/random?category=${category}`);
       return response.data.value;
     } catch (error) {
       console.error(error);
-      throw new Error(`Failed to fetch Chuck Norris joke for category ${category}`);
+      throw new Error(`Failed to fetch Chuck Norris fact for category ${category}`);
     }
-  }
+  },
+  searchFacts: async ({ query }: { query: string }) => {
+    try {
+      const response = await axios.get(`https://api.chucknorris.io/jokes/search?query=${query}`);
+      return response.data.result.length > 0 ? response.data.result[0].value : 'No facts found';
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Failed to search facts for query ${query}`);
+    }
+  },
 };

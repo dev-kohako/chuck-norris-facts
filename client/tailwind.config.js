@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
@@ -12,6 +13,10 @@ module.exports = {
         'lg': '1025px',
         'xl': '1280px',
         '2xl': '1536px',
+      },
+      fontFamily: {
+        "Poppins": 'Poppins, sans-serif',
+        "Pixelify": 'Pixelify Sans, sans-serif'
       },
     },
   },

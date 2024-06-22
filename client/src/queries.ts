@@ -6,14 +6,21 @@ export const GET_CHUCK_NORRIS_FACT = gql`
   }
 `;
 
+
 export const GET_CHUCK_NORRIS_CATEGORIES = gql`
   query GetChuckNorrisCategories {
     getChuckNorrisCategories
   }
 `;
 
-export const GET_CHUCK_NORRIS_JOKE_BY_CATEGORY = gql`
-  query GetChuckNorrisJokeByCategory($category: String!) {
-    getChuckNorrisJokeByCategory(category: $category)
+export const GET_CHUCK_NORRIS_FACT_BY_CATEGORY = gql`
+  query GetChuckNorrisFactByCategory($category: String!) {
+    getChuckNorrisFactByCategory(category: $category)
+  }
+`;
+
+export const SEARCH_FACTS = gql`
+  query SearchFacts($query: String!) {
+    searchFacts(query: $query)
   }
 `;

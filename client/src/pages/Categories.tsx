@@ -1,22 +1,63 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_CHUCK_NORRIS_CATEGORIES } from '../queries';
+import { useLazyQuery, useQuery } from '@apollo/client';
+import { GET_CHUCK_NORRIS_CATEGORIES, GET_CHUCK_NORRIS_FACT_BY_CATEGORY } from '../queries';
 
 const Categories: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_CHUCK_NORRIS_CATEGORIES);
+  const { loading: categoriesLoading, error: categoriesError, data: categoriesData } = useQuery(GET_CHUCK_NORRIS_CATEGORIES);
+  const [getFact, { loading: factLoading, data: factData, error: factError }] = useLazyQuery(GET_CHUCK_NORRIS_FACT_BY_CATEGORY);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  const handleCategoryClick = (category: string) => {
+    console.log('Fetching fact for category:', category);
+    getFact({ variables: { category } });
+  };
+
+  if (categoriesLoading) return (
+    <div role="status" aria-label="Loading categories">
+      <article
+        className="h-8 w-8 rounded-full animate-spin border-4 border-l-zinc-500 border-r-zinc-500 border-b-zinc-500 border-t-sky-500"
+        role="status"
+        aria-label="Loading Spinner"
+      ></article>
+    </div>
+  );
+
+  if (categoriesError) return <p role="alert" className="text-red-500">Error: {categoriesError.message}</p>;
 
   return (
-    <div className='bg-red-700'>
-      <h2>Categories</h2>
-      <ul>
-        {data.getChuckNorrisCategories.map((category: string) => (
-          <li key={category}>{category}</li>
+    <section className='min-h-[80%] max-h-max flex flex-col justify-center items-center rounded-lg text-zinc-200 font-Poppins'>
+      <h2 className='font-semibold mb-5 xs:text-2xl uppercase xs:tracking-wide text-sky-500'>Categories</h2>
+      <ul className='flex justify-center items-center flex-wrap gap-3'>
+        {categoriesData.getChuckNorrisCategories.map((category: string) => (
+          <li
+            className='duration-150 hover:cursor-pointer outline outline-2 outline-zinc-200 hover:bg-zinc-300 hover:text-sky-500 px-2 py-1 rounded-xl'
+            key={category}
+            onClick={() => handleCategoryClick(category)}
+            role="button"
+            tabIndex={0}
+            aria-label={`Fetch fact for category ${category}`}
+          >
+            {category[0].toUpperCase() + category.substring(1)}
+          </li>
         ))}
       </ul>
-    </div>
+      {factLoading && (
+        <p
+          className='flex justify-center items-center flex-row-reverse gap-x-1 mt-5'
+          aria-label="Loading"
+        >
+          Loading Fact...
+          <article
+            className="xs:h-5 xs:w-5 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-zinc-900"
+            role="status"
+            aria-label="Loading Spinner"
+          ></article>
+        </p>
+      )}
+      {factError && <p role="alert" className="text-red-500">Error: {factError.message}</p>}
+      {factData && (
+        <p className='mt-5 text-center'>{factData.getChuckNorrisFactByCategory}</p>
+      )}
+    </section>
   );
 };
 
