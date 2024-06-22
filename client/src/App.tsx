@@ -20,11 +20,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <main className="flex flex-col xs:min-h-screen xs:max-h-max xs:pb-[4em] sm:landscape:h-auto justify-start items-center bg-zinc-300 dark:bg-zinc-900">
+    <main className="flex flex-col xs:min-h-screen xs:max-h-max xs:pb-[4em] sm:landscape:h-auto justify-start items-center bg-zinc-300 dark:bg-zinc-900 overflow-hidden">
       <Header />
       <img 
         src={chuckDanceGif} 
-        className='w-20 pt-20' 
+        className='xs:w-20 sm:w-24 pt-20' 
         alt='Chuck Norris dancing' 
         aria-label='Chuck Norris dancing'
       />

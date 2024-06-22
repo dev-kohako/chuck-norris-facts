@@ -17,11 +17,11 @@ const RandomFact: React.FC = () => {
 
   return (
     <section
-      className='xs:max-w-[85%] xs:min-w-[85%] sm:landscape:max-w-[70%] sm:landscape:min-w-[70%] p-4 bg-zinc-900/80 rounded-lg text-center text-pretty font-Poppins'
+      className='xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] p-4 bg-zinc-900/80 rounded-lg text-center text-pretty font-Poppins'
       aria-live="polite"
       aria-busy={loading}
     >
-      <h2 className='pb-2 text-sky-500 text-lg font-semibold'>Chuck Norris Random Fact</h2>
+      <h2 className='pb-2 text-sky-500 text-lg font-semibold sm:text-xl'>Chuck Norris Random Fact</h2>
       {loading && (
         <p
           className='flex justify-center items-center text-zinc-300 flex-row-reverse gap-x-1 mt-2'

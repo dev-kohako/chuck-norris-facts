@@ -12,7 +12,7 @@ const Categories: React.FC = () => {
   };
 
   if (categoriesLoading) return (
-    <div role="status" aria-label="Loading categories">
+    <div className='flex justify-center items-center' role="status" aria-label="Loading categories">
       <article
         className="h-8 w-8 rounded-full animate-spin border-4 border-l-zinc-500 border-r-zinc-500 border-b-zinc-500 border-t-sky-500"
         role="status"
@@ -25,11 +25,11 @@ const Categories: React.FC = () => {
 
   return (
     <section className='min-h-[80%] max-h-max flex flex-col justify-center items-center rounded-lg text-zinc-200 font-Poppins'>
-      <h2 className='font-semibold mb-5 xs:text-2xl uppercase xs:tracking-wide text-sky-500'>Categories</h2>
+      <h2 className='font-semibold mb-5 xs:text-2xl sm:text-3xl uppercase xs:tracking-wide text-sky-500'>Categories</h2>
       <ul className='flex justify-center items-center flex-wrap gap-3'>
         {categoriesData.getChuckNorrisCategories.map((category: string) => (
           <li
-            className='duration-150 hover:cursor-pointer outline outline-2 outline-zinc-200 hover:bg-zinc-300 hover:text-sky-500 px-2 py-1 rounded-xl'
+            className='duration-150 hover:cursor-pointer outline outline-2 outline-zinc-200 hover:bg-zinc-300 hover:text-sky-500 px-2 py-1 rounded-xl sm:text-lg'
             key={category}
             onClick={() => handleCategoryClick(category)}
             role="button"
@@ -47,7 +47,7 @@ const Categories: React.FC = () => {
         >
           Loading Fact...
           <article
-            className="xs:h-5 xs:w-5 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-zinc-900"
+            className="xs:h-5 xs:w-5 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500"
             role="status"
             aria-label="Loading Spinner"
           ></article>
@@ -55,7 +55,7 @@ const Categories: React.FC = () => {
       )}
       {factError && <p role="alert" className="text-red-500">Error: {factError.message}</p>}
       {factData && (
-        <p className='mt-5 text-center'>{factData.getChuckNorrisFactByCategory}</p>
+        <p className='mt-5 text-center sm:text-lg'>{factData.getChuckNorrisFactByCategory}</p>
       )}
     </section>
   );
