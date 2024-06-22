@@ -55,7 +55,7 @@ const Categories: React.FC = () => {
       )}
       {factError && <p role="alert" className="text-red-500">Error: {factError.message}</p>}
       {factData && (
-        <p className='mt-5 text-center sm:text-lg md:text-xl'>{factData.getChuckNorrisFactByCategory}</p>
+        <><h1 className='mt-5 lg:mt-8 text-2xl md:text-4xl text-sky-500 font-semibold'>Fact:</h1><p className='text-center sm:text-lg md:text-xl'>{factData.getChuckNorrisFactByCategory}</p></>
       )}
     </section>
   );

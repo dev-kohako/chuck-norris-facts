@@ -17,7 +17,7 @@ const RandomFact: React.FC = () => {
 
   return (
     <section
-      className='xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] p-4 sm:p-6 md:px-8 md:py-6 bg-zinc-900/80 rounded-lg text-center text-pretty font-Poppins'
+      className='xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] xl:landscape:min-w-[40%] xl:landscape:max-w-[40%] p-4 sm:p-6 md:px-8 md:py-6 bg-zinc-900/80 rounded-lg text-center text-pretty font-Poppins'
       aria-live="polite"
       aria-busy={loading}
     >

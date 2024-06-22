@@ -1,7 +1,7 @@
 import React, { useState, Suspense, lazy, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import chuckDanceGif from './images/download.gif';
+import chuckDanceGif from './images/chuck-dancing.gif';
 const RandomFact = lazy(() => import('./pages/RandomFact'));
 const Categories = lazy(() => import('./pages/Categories'));
 const Modal = lazy(() => import('./components/Modal'));
@@ -24,7 +24,7 @@ const App: React.FC = () => {
       <Header />
       <img 
         src={chuckDanceGif} 
-        className='w-20 sm:w-24 pt-10 md:pt-0.5 md:w-28' 
+        className='w-20 sm:w-24 pt-10 md:w-28 md:pt-20' 
         alt='Chuck Norris dancing' 
         aria-label='Chuck Norris dancing'
       />
