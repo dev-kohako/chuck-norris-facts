@@ -1,19 +1,26 @@
 import express from 'express';
-import { graphqlHTTP } from 'express-graphql';
-import schema from './schema';
-import { root } from './resolvers';
+import { request } from 'graphql-request';
 import cors from 'cors';
 
 const app = express();
+const endpoint = 'https://chuck-norris-facts-kappa.vercel.app/graphql';
 
 app.use(cors());
+app.use(express.json()); // Middleware para parsear JSON
 
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
-}));
+app.post('/graphql', async (req, res) => {
+  const { query, variables } = req.body; // Extrai query e variáveis do corpo da requisição
 
-app.listen(4000, () => {
-  console.log('Server is running on port 4000..');
+  try {
+    const response = await request(endpoint, query, variables);
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ });
+  }
+});
+
+const PORT = process.env.PORT || 4000; // Permite que o servidor utilize a porta configurada no ambiente ou a porta 4000
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}..`);
 });

@@ -5,7 +5,7 @@ import App from './App';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',  // Certifique-se de que a URI está correta
+  uri: 'https://chuck-norris-facts-kappa.vercel.app/graphql',  // Certifique-se de que a URI está correta
   cache: new InMemoryCache(),
 });
 
