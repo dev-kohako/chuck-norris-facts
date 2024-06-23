@@ -12,13 +12,18 @@ const Categories: React.FC = () => {
   };
 
   if (categoriesLoading) return (
-    <div className='flex justify-center items-center' role="status" aria-label="Loading categories">
-      <article
-        className="h-8 w-8 mt-4 rounded-full animate-spin border-4 border-l-zinc-500 border-r-zinc-500 border-b-zinc-500 border-t-sky-500"
-        role="status"
-        aria-label="Loading Spinner"
-      ></article>
-    </div>
+
+      <p
+          className='flex justify-center items-center sm:text-lg flex-row-reverse gap-x-1 md:text-xl text-zinc-200 animate-pulse'
+          aria-label="Loading"
+        >
+          Loading Fact...
+          <article
+            className="xs:h-5 md:h-6 xs:w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500"
+            role="status"
+            aria-label="Loading Spinner"
+          ></article>
+        </p>
   );
 
   if (categoriesError) return <p role="alert" className="text-red-500">Error: {categoriesError.message}</p>;
@@ -41,21 +46,16 @@ const Categories: React.FC = () => {
         ))}
       </ul>
       {factLoading && (
-        <p
-          className='flex justify-center items-center sm:text-lg flex-row-reverse gap-x-1 mt-5 md:text-xl'
-          aria-label="Loading"
-        >
+        <div className='bg-zinc-900/80 rounded-lg py-4 text-zinc-200'>
+        <p className='flex justify-center items-center text-lg text-zinc-200 gap-x-1 md:text-xl' aria-label="Loading">
           Loading Fact...
-          <article
-            className="xs:h-5 md:h-6 xs:w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500"
-            role="status"
-            aria-label="Loading Spinner"
-          ></article>
+          <span className="h-5 md:h-6 w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-100 border-r-zinc-100 border-b-zinc-100 border-t-sky-500" role="status" aria-label="Loading Spinner"></span>
         </p>
+      </div>
       )}
       {factError && <p role="alert" className="text-red-500">Error: {factError.message}</p>}
       {factData && (
-        <><h1 className='mt-5 lg:mt-8 text-2xl md:text-4xl text-sky-500 font-semibold'>Fact:</h1><p className='text-center sm:text-lg md:text-xl'>{factData.getChuckNorrisFactByCategory}</p></>
+        <><h1 className='mt-5 lg:mt-8 text-2xl md:text-4xl text-sky-500 font-semibold'>Fact:</h1><p className='text-center sm:text-lg md:text-xl text-zinc-200'>{factData.getChuckNorrisFactByCategory}</p></>
       )}
     </section>
   );

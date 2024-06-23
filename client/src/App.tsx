@@ -2,11 +2,29 @@ import React, { useState, Suspense, lazy, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import chuckDanceGif from './images/chuck-dancing.gif';
-const RandomFact = lazy(() => import('./pages/RandomFact'));
-const Categories = lazy(() => import('./pages/Categories'));
-const Modal = lazy(() => import('./components/Modal'));
-const FactByFreeText = lazy(() => import('./pages/FactByFreeText'));
-const SearchByCategorySection = lazy(() => import('./components/SearchByCategorySection'));
+import DarkModeButton from './components/DarkModeButton';
+import { delay } from './utils/delay';
+
+const RandomFact = lazy(async () => {
+  await delay(500); // Adiciona um atraso de 3 segundos
+  return import('./pages/RandomFact');
+});
+const Categories = lazy(async () => {
+  await delay(500);
+  return import('./pages/Categories');
+});
+const Modal = lazy(async () => {
+  await delay(0);
+  return import('./components/Modal');
+});
+const FactByFreeText = lazy(async () => {
+  await delay(500);
+  return import('./pages/FactByFreeText');
+});
+const SearchByCategorySection = lazy(async () => {
+  await delay(500);
+  return import('./components/SearchByCategorySection');
+});
 
 const App: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,30 +55,30 @@ const App: React.FC = () => {
       <Header />
       <img 
         src={chuckDanceGif} 
-        className='w-20 sm:w-24 pt-10 md:w-28 md:pt-20' 
+        className='w-20 sm:w-24 pt-10 xs:landscape:mt-10 md:landscape:mt-2 md:w-28 md:pt-20' 
         alt='Chuck Norris dancing' 
         aria-label='Chuck Norris dancing'
       />
+        
+        <DarkModeButton onToggleTheme={toggleTheme} isDarkMode={isDarkMode} />
 
-<button onClick={toggleTheme} className="p-2 bg-gray-300 rounded">
-          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-        </button>
-
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div className="bg-zinc-400 dark:bg-zinc-600 h-5 xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] xl:landscape:min-w-[40%] xl:landscape:max-w-[40%] mb-3 animate-pulse rounded-lg"></div>}>
         <RandomFact />
       </Suspense>
       
-      <Suspense fallback={<div>Loading...</div>}>
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <Categories />
-        </Modal>
-      </Suspense>
+      {isModalOpen && (
+        <Suspense fallback={<div className="backdrop-blur-lg h-screen w-screen fixed "></div>}>
+          <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <Categories />
+          </Modal>
+        </Suspense>
+      )}
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div className="bg-zinc-400 dark:bg-zinc-600 h-5 xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] xl:landscape:min-w-[40%] xl:landscape:max-w-[40%] mb-3 animate-pulse rounded-lg"></div>}>
         <SearchByCategorySection onOpenModal={openModal} />
       </Suspense>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div className="bg-zinc-400 dark:bg-zinc-600 h-5 xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] xl:landscape:min-w-[40%] xl:landscape:max-w-[40%] mb-3 animate-pulse rounded-lg"></div>}>
         <FactByFreeText />
       </Suspense>
       <Footer />

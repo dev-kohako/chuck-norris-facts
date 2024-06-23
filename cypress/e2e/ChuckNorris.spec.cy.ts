@@ -2,23 +2,37 @@
 /// <reference types="cypress" />
 
 describe('Chuck Norris Facts', () => {
-  it('loads a random fact', () => {
+  beforeEach(() => {
     cy.visit('http://localhost:3000/');
+  });
+
+  it('loads a random fact', () => {
     cy.contains('Chuck Norris Random Fact');
     cy.contains('Loading Fact...');
   });
 
   it('searches facts by free text', () => {
-    cy.visit('http://localhost:3000/');
     cy.get('input[name="freeText"]').type('funny');
     cy.get('button[type="submit"]').click();
     cy.contains('Loading Fact...');
   });
 
   it('fetches fact by category', () => {
-    cy.visit('http://localhost:3000/');
     cy.contains('Get Categories').click();
     cy.contains('Dev').click();
     cy.contains('Loading Fact...');
+  });
+
+  it('toggles dark mode', () => {
+    // Check initial state (assuming light mode by default)
+    cy.get('body').should('have.class', '');
+
+    // Toggle to dark mode
+    cy.get('button').contains('Dark Mode').click();
+    cy.get('body').should('have.class', 'dark');
+
+    // Toggle back to light mode
+    cy.get('button').contains('Light Mode').click();
+    cy.get('body').should('have.class', '');
   });
 });
