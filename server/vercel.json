@@ -10,10 +10,7 @@
   "routes": [
     {
         "src": "(.*)",
-        "dest": "src/index.ts",
-        "headers": {
-        "Access-Control-Allow-Origin": "*"
-      }
+        "dest": "src/index.ts"
     }
 ]
 }
