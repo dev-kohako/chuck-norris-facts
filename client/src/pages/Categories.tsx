@@ -50,7 +50,7 @@ const Categories: React.FC = () => {
         ) : factError ? (
           <p role="alert" className="text-red-500">Error: {factError.message}</p>
         ) : (
-          <p className='w-full text-center md:text-lg p-4 rounded-lg border-2 border-zinc-300 text-zinc-200 font-semibold mx-4' aria-live="polite">
+          <p className='w-full text-center md:text-lg p-4 rounded-lg border-2 border-zinc-300 text-zinc-200 font-semibold' aria-live="polite">
             {factData?.getChuckNorrisFactByCategory || "Click a category to get a fact"}
           </p>
         )}

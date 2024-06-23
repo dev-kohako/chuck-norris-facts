@@ -35,7 +35,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <main className="flex flex-col min-h-screen justify-center items-center bg-zinc-300 dark:bg-zinc-900 overflow-hidden font-Poppins">
+    <main className="flex flex-col min-h-screen max-w-max justify-center items-center bg-zinc-300 dark:bg-zinc-900 overflow-hidden font-Poppins py-20">
       <Header />
       <img 
         src={chuckDanceGif} 
