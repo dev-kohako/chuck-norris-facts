@@ -11,25 +11,21 @@ const Categories: React.FC = () => {
     getFact({ variables: { category } });
   };
 
-  if (categoriesLoading) return (
+  if (categoriesLoading) {
+    return (
+      <p className='flex justify-center items-center sm:text-lg flex-row-reverse gap-x-1 md:text-xl text-zinc-200 animate-pulse' aria-label="Loading">
+        Loading Fact...
+        <article className="xs:h-5 md:h-6 xs:w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500" role="status" aria-label="Loading Spinner"></article>
+      </p>
+    );
+  }
 
-      <p
-          className='flex justify-center items-center sm:text-lg flex-row-reverse gap-x-1 md:text-xl text-zinc-200 animate-pulse'
-          aria-label="Loading"
-        >
-          Loading Fact...
-          <article
-            className="xs:h-5 md:h-6 xs:w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500"
-            role="status"
-            aria-label="Loading Spinner"
-          ></article>
-        </p>
-  );
-
-  if (categoriesError) return <p role="alert" className="text-red-500">Error: {categoriesError.message}</p>;
+  if (categoriesError) {
+    return <p role="alert" className="text-red-500">Error: {categoriesError.message}</p>;
+  }
 
   return (
-    <section className='min-h-[80%] max-h-max flex flex-col justify-center items-center rounded-lg text-zinc-200 font-Poppins'>
+    <section className='min-h-[80%] max-h-max flex flex-col justify-center items-center rounded-lg text-zinc-200'>
       <h2 className='font-semibold mb-5 xs:text-2xl sm:text-3xl md:text-4xl uppercase xs:tracking-wide text-sky-500'>Categories</h2>
       <ul className='flex justify-center items-center flex-wrap gap-3'>
         {categoriesData.getChuckNorrisCategories.map((category: string) => (
@@ -45,18 +41,20 @@ const Categories: React.FC = () => {
           </li>
         ))}
       </ul>
-      {factLoading && (
-        <div className='bg-zinc-900/80 rounded-lg py-4 text-zinc-200'>
-        <p className='flex justify-center items-center text-lg text-zinc-200 gap-x-1 md:text-xl' aria-label="Loading">
-          Loading Fact...
-          <span className="h-5 md:h-6 w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-100 border-r-zinc-100 border-b-zinc-100 border-t-sky-500" role="status" aria-label="Loading Spinner"></span>
-        </p>
-      </div>
-      )}
-      {factError && <p role="alert" className="text-red-500">Error: {factError.message}</p>}
-      {factData && (
-        <><h1 className='mt-5 lg:mt-8 text-2xl md:text-4xl text-sky-500 font-semibold'>Fact:</h1><p className='text-center sm:text-lg md:text-xl text-zinc-200'>{factData.getChuckNorrisFactByCategory}</p></>
-      )}
+      <article className='w-full flex justify-center items-center mt-8'>
+        {factLoading ? (
+          <p className='text-lg md:text-xl flex flex-row-reverse gap-x-1 text-zinc-200 animate-pulse' aria-label="Loading Fact">
+            Loading Fact...
+            <article className="xs:h-5 md:h-6 xs:w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500" role="status" aria-label="Loading Spinner"></article>
+          </p>
+        ) : factError ? (
+          <p role="alert" className="text-red-500">Error: {factError.message}</p>
+        ) : (
+          <p className='w-full text-center md:text-lg p-4 rounded-lg border-2 border-zinc-300 text-zinc-200 font-semibold mx-4' aria-live="polite">
+            {factData?.getChuckNorrisFactByCategory || "Click a category to get a fact"}
+          </p>
+        )}
+      </article>
     </section>
   );
 };
