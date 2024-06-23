@@ -4,7 +4,9 @@ import { GET_CHUCK_NORRIS_CATEGORIES, GET_CHUCK_NORRIS_FACT_BY_CATEGORY } from '
 
 const Categories: React.FC = () => {
   const { loading: categoriesLoading, error: categoriesError, data: categoriesData } = useQuery(GET_CHUCK_NORRIS_CATEGORIES);
-  const [getFact, { loading: factLoading, data: factData, error: factError }] = useLazyQuery(GET_CHUCK_NORRIS_FACT_BY_CATEGORY);
+  const [getFact, { loading: factLoading, data: factData, error: factError }] = useLazyQuery(GET_CHUCK_NORRIS_FACT_BY_CATEGORY, {
+    fetchPolicy: 'network-only',
+  });
 
   const handleCategoryClick = (category: string) => {
     console.log('Fetching fact for category:', category);
@@ -13,10 +15,9 @@ const Categories: React.FC = () => {
 
   if (categoriesLoading) {
     return (
-      <p className='flex justify-center items-center sm:text-lg flex-row-reverse gap-x-1 md:text-xl text-zinc-200 animate-pulse' aria-label="Loading">
+        <div className='flex justify-center items-center'><article className="xs:h-5 md:h-6 xs:w-5 md:w-6 mr-1.5 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500" role="status" aria-label="Loading Spinner"></article><p className='flex justify-center items-center sm:text-lg flex-row-reverse gap-x-1 md:text-xl text-zinc-200 animate-pulse' aria-label="Loading">
         Loading Fact...
-        <article className="xs:h-5 md:h-6 xs:w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500" role="status" aria-label="Loading Spinner"></article>
-      </p>
+      </p></div>
     );
   }
 
@@ -43,10 +44,9 @@ const Categories: React.FC = () => {
       </ul>
       <article className='w-full flex justify-center items-center mt-8'>
         {factLoading ? (
-          <p className='text-lg md:text-xl flex flex-row-reverse gap-x-1 text-zinc-200 animate-pulse' aria-label="Loading Fact">
+            <><article className="xs:h-5 md:h-6 xs:w-5 md:w-6 mr-1.5 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500" role="status" aria-label="Loading Spinner"></article><p className='text-lg md:text-xl flex flex-row-reverse gap-x-1 text-zinc-200 animate-pulse' aria-label="Loading Fact">
             Loading Fact...
-            <article className="xs:h-5 md:h-6 xs:w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500" role="status" aria-label="Loading Spinner"></article>
-          </p>
+          </p></>
         ) : factError ? (
           <p role="alert" className="text-red-500">Error: {factError.message}</p>
         ) : (

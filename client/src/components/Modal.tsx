@@ -49,10 +49,10 @@ export default class Modal extends Component<ModalProps, ModalState> {
       <div className="fixed z-50 top-0 left-0 w-full xs:min-w-[85%] sm:min-w-[80%] min-h-screen max-h-max flex justify-center items-center bg-opacity-50 backdrop-blur-lg">
         <div
         style={modalStyle}
-        className="backdrop-blur-3xl sm:landscape:min-w-[70%] sm:landscape:max-w-[80%] bg-zinc-900/80 p-6 pb-10 sm:px-0.5 sm:py-6 rounded-xl relative xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] xl:landscape:min-w-[60%] xl:landscape:max-w-[60%] xs:min-h-[20%] xs:landscape:max-h-[60%] flex flex-col justify-center items-center border-2 border-zinc-300"
+        className="backdrop-blur-3xl sm:landscape:min-w-[70%] sm:landscape:max-w-[80%] bg-zinc-900/80 p-6 pb-10 sm:px-0.5 sm:py-6 rounded-xl relative xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] xl:landscape:min-w-[60%] xl:landscape:max-w-[60%] xs:min-h-[20%] xs:landscape:max-h-[60%] flex flex-col justify-center items-center dark:border-2 dark:border-zinc-300"
         aria-modal="true" 
         >
-          <button onClick={onClose} className="absolute top-1 md:top-2 right-2 md:right-3 m-0.5 text-3xl md:text-4xl text-zinc-200 hover:text-sky-500 duration-150" aria-label="Close modal">
+          <button onClick={onClose} className="absolute top-1 right-2 md:right-3 m-0.5 text-3xl md:text-4xl text-zinc-200 hover:text-sky-500 duration-150" aria-label="Close modal">
             &times;
           </button>
           <div className="w-full px-4 py-2 overflow-y-auto">

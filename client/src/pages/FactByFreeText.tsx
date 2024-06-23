@@ -4,13 +4,18 @@ import { GET_CHUCK_NORRIS_FACT_BY_TEXT } from '../queries';
 
 const FactByFreeText: React.FC = () => {
   const [freeText, setFreeText] = useState('');
-  const [searchFacts, { loading, data, error }] = useLazyQuery(GET_CHUCK_NORRIS_FACT_BY_TEXT, {
-    variables: { query: freeText },
-  });
+  const [searchFacts, { loading, data, error }] = useLazyQuery(GET_CHUCK_NORRIS_FACT_BY_TEXT);
+
+  const [inputError, setInputError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    searchFacts({ variables: { query: freeText } });
+    if (freeText.trim() !== '') {
+      searchFacts({ variables: { query: freeText } });
+      setInputError(false);
+    } else {
+      setInputError(true); 
+    }
   };
 
   return (
@@ -35,7 +40,7 @@ const FactByFreeText: React.FC = () => {
           aria-label="Enter your Search"
         />
         <button
-          className='bg-zinc-900/80 text-zinc-200 py-1 px-3 rounded-e-lg text-nowrap hover:text-sky-500 duration-150 text-lg md:text-xl dark:outline-2 dark:outline dark:outline-zinc-200'
+          className='bg-zinc-900/80 text-zinc-200 py-1 px-3 rounded-e-lg text-nowrap hover:text-sky-500 duration-150 text-lg md:text-xl outline-transparent outline-2 outline dark:outline-zinc-200'
           type="submit"
           aria-label="Get Fact"
         >
@@ -44,26 +49,33 @@ const FactByFreeText: React.FC = () => {
       </form>
 
       <div className='w-full text-center mt-4 md:mt-6'>
-        {loading && (
-          <div className='bg-zinc-900/80 dark:border-2 dark:border-zinc-300 rounded-lg py-4 text-zinc-200' aria-live="assertive" aria-busy="true">
+      {loading && !inputError && (
+          <div className='flex justify-center items-center bg-zinc-900/80 border-2 border-transparent dark:border-zinc-300 rounded-lg py-4' aria-live="assertive">
+            <article className="h-5 md:h-6 w-5 md:w-6 mr-1.5 rounded-full animate-spin border-2 border-l-zinc-100 border-r-zinc-100 border-b-zinc-100 border-t-sky-500" role="status" aria-label="Loading Spinner"></article>
             <p className='flex justify-center items-center text-lg text-zinc-200 gap-x-1 md:text-xl'>
               Loading Fact...
-              <span className="h-5 md:h-6 w-5 md:w-6 rounded-full animate-spin border-2 border-l-zinc-100 border-r-zinc-100 border-b-zinc-100 border-t-sky-500" role="status" aria-label="Loading Spinner"></span>
             </p>
           </div>
         )}
-        {error && (
+        {error && !inputError && (
           <div className='bg-zinc-900/80 dark:border-2 dark:border-zinc-300 rounded-lg py-4' aria-live="assertive">
             <p role="alert" className='text-red-600 font-semibold text-sm sm:text-base md:text-lg'>
               Error: {error.message}
             </p>
           </div>
         )}
-        {data && (
-          <div className='bg-zinc-900/80 dark:border-2 dark:border-zinc-300 rounded-lg mt-4 md:mt-6'>
+        {data && data.searchFacts && !inputError && (
+          <div className='bg-zinc-900/80 border-2 border-transparent dark:border-zinc-300 rounded-lg mt-4 md:mt-6'>
             <h1 className='pt-5 text-2xl md:text-4xl text-sky-500 font-semibold'>Fact:</h1>
             <p className="text-center p-4 sm:p-6 pt-1 sm:pt-1 text-zinc-200 text-lg md:text-xl">
               {data.searchFacts}
+            </p>
+          </div>
+        )}
+        {inputError && (
+          <div className='bg-zinc-900/80 dark:border-2 dark:border-zinc-300 rounded-lg py-4' aria-live="assertive">
+            <p role="alert" className='text-red-600 font-semibold text-sm sm:text-base md:text-lg'>
+              Please enter a search query.
             </p>
           </div>
         )}

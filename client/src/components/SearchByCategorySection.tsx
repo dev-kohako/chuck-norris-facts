@@ -12,7 +12,7 @@ const SearchByCategorySection: React.FC<SearchByCategorySectionProps> = ({ onOpe
       </h1>
       <button
         onClick={onOpenModal}
-        className="w-full p-2 md:p-3 bg-zinc-900/80 dark:border-2 dark:border-zinc-300 text-zinc-200 dark:text-zinc-200 rounded-lg dark:hover:text-sky-500 hover:text-sky-500 duration-150 text-lg md:text-xl md:mt-1"
+        className="w-full p-2 md:p-3 bg-zinc-900/80 border-2 border-transparent dark:border-zinc-300 text-zinc-200 dark:text-zinc-200 rounded-lg dark:hover:text-sky-500 hover:text-sky-500 duration-150 text-lg md:text-xl md:mt-1"
         aria-label="Open categories modal"
       >
         Get Categories
