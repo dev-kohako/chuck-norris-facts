@@ -24,16 +24,16 @@ describe('Chuck Norris Facts', () => {
   });
 
   it('toggles dark mode', () => {
-    // Check initial state (assuming light mode by default)
-    cy.get('body').should('have.class', '');
+    cy.get('html').should('not.have.class', 'dark');
 
     // Toggle to dark mode
+    cy.log('Toggling to dark mode');
     cy.get('button').contains('Light').click();
-    cy.get('body').should('have.class', 'dark');
+    cy.get('html').should('have.class', 'dark');
 
     // Toggle back to light mode
+    cy.log('Toggling back to light mode');
     cy.get('button').contains('Dark').click();
-    cy.get('body').should('have.class', '');
-
+    cy.get('html').should('not.have.class', 'dark');
   });
 });
