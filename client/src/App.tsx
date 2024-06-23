@@ -6,11 +6,11 @@ import DarkModeButton from './components/DarkModeButton';
 import { delay } from './utils/delay';
 
 const RandomFact = lazy(async () => {
-  await delay(500);
+  await delay(1000);
   return import('./pages/RandomFact');
 });
 const Categories = lazy(async () => {
-  await delay(500);
+  await delay(0);
   return import('./pages/Categories');
 });
 const Modal = lazy(async () => {
@@ -18,11 +18,11 @@ const Modal = lazy(async () => {
   return import('./components/Modal');
 });
 const FactByFreeText = lazy(async () => {
-  await delay(500);
+  await delay(0);
   return import('./pages/FactByFreeText');
 });
 const SearchByCategorySection = lazy(async () => {
-  await delay(500);
+  await delay(0);
   return import('./components/SearchByCategorySection');
 });
 
@@ -60,7 +60,7 @@ const App: React.FC = () => {
         aria-label='Chuck Norris dancing'
       />
         <DarkModeButton onToggleTheme={toggleTheme} isDarkMode={isDarkMode} />
-        <Suspense fallback={<div className="bg-zinc-400 dark:bg-zinc-600 h-40 xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] xl:landscape:min-w-[40%] xl:landscape:max-w-[40%] mb-3 animate-pulse rounded-lg"></div>}>
+        <Suspense fallback={<div className="bg-zinc-400 dark:bg-zinc-600 h-40 xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] xl:landscape:min-w-[40%] xl:landscape:max-w-[40%] mb-3 rounded-lg animate-pulse"></div>}>
           <RandomFact />
           <SearchByCategorySection onOpenModal={openModal} />
           <FactByFreeText />
