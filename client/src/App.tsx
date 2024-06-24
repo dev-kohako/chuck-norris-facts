@@ -64,10 +64,10 @@ const App: React.FC = () => {
 
 const LoadingFallback: React.FC = () => (
   <div className="flex flex-col items-center justify-center space-y-4 mb-3 animate-pulse">
-    <div className="w-full h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"></div>
-    <div className="w-full h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"></div>
-    <div className="w-full h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"></div>
-    <div className="w-full h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"></div>
+    <div className="w-64 h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"></div>
+    <div className="w-64 h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"></div>
+    <div className="w-64 h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"></div>
+    <div className="w-64 h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"></div>
   </div>
 );
 
