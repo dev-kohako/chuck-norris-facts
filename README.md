@@ -1,94 +1,50 @@
-Para começar com o projeto, clone o repositório e instale as dependências:
 
-bash
-Copiar código
-git clone https://github.com/seu-usuario/chuck-norris-facts.git
-cd chuck-norris-facts
-npm install
-Scripts Disponíveis
-No diretório do projeto, você pode executar:
+# Chuck Norris Facts
 
-npm start
-Inicia o aplicativo no modo de desenvolvimento.
-Abra http://localhost:3000 para ver no navegador.
+Bem-vindo ao Chuck Norris Facts, um aplicativo React que permite obter fatos aleatórios e pesquisar fatos de Chuck Norris por texto ou categoria. Utilizamos Apollo Client para gerenciar consultas GraphQL e oferecer uma experiência de usuário fluida.
 
-A página será recarregada se você fizer edições.
-Você também verá quaisquer erros de lint no console.
+## Link do App Online
+**https://kwk-chuck-norris-facts.netlify.app/**
 
-npm test
-Inicia o Cypress para testes end-to-end.
+## Tecnologias Utilizadas
 
-npm run build
-Constrói o aplicativo para produção na pasta build.
-Ele agrupa corretamente o React no modo de produção e otimiza a construção para o melhor desempenho.
+- **React.js:** Uma biblioteca JavaScript para construção de interfaces de usuário reativas.
+- **Tailwind CSS:** Um framework de estilo utilitário que agiliza o desenvolvimento de designs modernos.
+- **Apollo Client:** Gerenciamento de estado para consultas GraphQL.
 
-A compilação é minificada e os nomes dos arquivos incluem os hashes.
-Seu aplicativo está pronto para ser implantado!
+## Recursos Destacados
 
-npm run lint
-Roda o linter para verificar erros no código.
+- **Modo Noturno Persistente:** Escolha entre os modos claro e escuro para personalizar sua experiência. Suas preferências são salvas localmente para uma consistência contínua.
+- **Fatos Aleatórios e Pesquisa:** Obtenha fatos aleatórios ou pesquise fatos específicos de Chuck Norris por texto ou categoria.
+- **Intuitivo e Responsivo:** Uma interface fácil de usar, projetada para proporcionar uma experiência fluida em qualquer dispositivo.
+## Instalação
 
-Configuração do Ambiente
-Certifique-se de que você tenha um arquivo .env na raiz do seu projeto com as seguintes variáveis de ambiente:
+**Clone o Repositório:**
+```bash
+  git clone https://github.com/seu-usuario/chuck-norris-facts.git
+```
+    
+**Instale as Dependências:**
+```bash
+  cd chuck-norris-facts
+  npm install
+```
+    
+**Inicie o Aplicativo:**
 
-bash
-Copiar código
-REACT_APP_GRAPHQL_ENDPOINT=http://localhost:4000/graphql
-Estrutura do Projeto
-Aqui está uma breve descrição da estrutura de pastas do projeto:
+```bash
+  npm start
+```
 
-css
-Copiar código
-chuck-norris-facts/
-├── public/
-├── src/
-│   ├── components/
-│   │   ├── Header.tsx
-│   │   ├── Footer.tsx
-│   │   ├── DarkModeButton.tsx
-│   │   ├── Modal.tsx
-│   │   ├── SearchByCategorySection.tsx
-│   ├── pages/
-│   │   ├── RandomFact.tsx
-│   │   ├── Categories.tsx
-│   │   ├── FactByFreeText.tsx
-│   ├── queries/
-│   │   ├── index.ts
-│   │   └── GET_CHUCK_NORRIS_FACT_BY_TEXT.ts
-│   ├── styles/
-│   │   ├── index.css
-│   ├── utils/
-│   │   ├── delay.ts
-│   ├── App.tsx
-│   ├── index.tsx
-│   └── ...
-└── ...
-Deploy no Netlify
-Passo a Passo para o Deploy
-Configuração do Repositório:
+**Inicie o Aplicativo:**
+Abra o navegador e acesse http://localhost:3000 para começar a explorar os fatos de Chuck Norris.
+## Contribuindo
 
-Faça o push do seu código para um repositório GitHub, GitLab ou Bitbucket.
-Crie uma Conta no Netlify:
+Aceitamos contribuições! Sinta-se à vontade para abrir issues ou enviar pull requests para melhorar o Chuck Norris Facts.
 
-Acesse Netlify e crie uma conta.
-Novo Site no Netlify:
 
-No painel do Netlify, clique em "New site from Git".
-Conecte ao Repositório:
+## Licença
 
-Escolha o provedor Git e selecione o repositório do seu projeto.
-Configurações de Build:
+Este projeto é licenciado sob a Licença MIT. Utilize e adapte conforme suas necessidades.
 
-Build Command: npm run build
-Publish Directory: build
-Variáveis de Ambiente:
-
-Adicione as variáveis de ambiente necessárias no painel de configurações do Netlify.
-Deploy:
-
-Clique em "Deploy site". O Netlify vai iniciar o processo de build e deploy do seu projeto.
-Contribuindo
-Se você quiser contribuir com este projeto, por favor, abra uma issue ou envie um pull request com suas mudanças. Certifique-se de seguir as diretrizes de contribuição.
-
-Licença
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+**Divirta-se descobrindo fatos incríveis sobre Chuck Norris!**

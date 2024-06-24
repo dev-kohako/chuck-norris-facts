@@ -46,16 +46,20 @@ export default class Modal extends Component<ModalProps, ModalState> {
     }
 
     return (
-      <div className="fixed z-50 top-0 left-0 w-full xs:min-w-[85%] sm:min-w-[80%] min-h-screen max-h-max flex justify-center items-center bg-opacity-50 backdrop-blur-lg">
+      <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full min-h-screen bg-opacity-50 backdrop-blur-lg">
         <div
-        style={modalStyle}
-        className="backdrop-blur-3xl sm:landscape:min-w-[70%] sm:landscape:max-w-[80%] bg-zinc-900/80 p-4 pb-6 sm:px-0.5 rounded-xl relative xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] xl:landscape:min-w-[60%] xl:landscape:max-w-[60%] xs:min-h-[20%] xs:landscape:max-h-[60%] flex flex-col justify-center items-center dark:border-2 dark:border-zinc-300"
-        aria-modal="true" 
+          style={modalStyle}
+          className="relative flex flex-col items-center justify-center w-full max-w-full px-0.5 pt-4 pb-2 overflow-y-auto bg-gradient-to-tl from-zinc-300 to-zinc-200 shadow-neumorphism dark:from-zinc-800 dark:to-zinc-700 dark:shadow-dark-neumorphism backdrop-blur-3xl sm:landscape:min-w-[70%] sm:landscape:max-w-[80%] xs:min-w-[85%] xs:max-w-[85%] sm:min-w-[80%] sm:max-w-[80%] md:min-w-[70%] md:max-w-[70%] xl:landscape:min-w-[60%] xl:landscape:max-w-[60%] rounded-xl"
+          aria-modal="true"
         >
-          <button onClick={onClose} className="absolute top-1 right-2 md:right-3 m-0.5 text-3xl md:text-4xl text-zinc-200 hover:text-sky-500 duration-150" aria-label="Close modal">
+          <button
+            onClick={onClose}
+            className="absolute m-0.5 text-3xl duration-150 hover:text-sky-500 top-1 right-2 md:right-3 md:text-4xl text-zinc-700 dark:text-zinc-200 dark:hover:text-sky-500"
+            aria-label="Close modal"
+          >
             &times;
           </button>
-          <div className="w-full px-4 py-2 overflow-y-auto">
+          <div className="w-full px-6 py-2 overflow-y-auto">
             {children}
           </div>
         </div>

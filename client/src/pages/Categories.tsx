@@ -15,23 +15,33 @@ const Categories: React.FC = () => {
 
   if (categoriesLoading) {
     return (
-        <div className='flex justify-center items-center'><article className="xs:h-5 md:h-6 xs:w-5 md:w-6 mr-1.5 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500" role="status" aria-label="Loading Spinner"></article><p className='flex justify-center items-center sm:text-lg flex-row-reverse gap-x-1 md:text-xl text-zinc-200 animate-pulse' aria-label="Loading">
-        Loading Fact...
-      </p></div>
+      <div className="flex items-center justify-center mb-4">
+        <article
+          className="mr-1.5 h-5 w-5 animate-spin rounded-full border-2 border-l-zinc-700 dark:border-l-zinc-200 border-r-zinc-700 dark:border-r-zinc-200 border-b-zinc-700 dark:border-b-zinc-200 border-t-sky-500 dark:border-t-sky-500 xs:h-5 md:h-6 xs:w-5 md:w-6"
+          role="status"
+          aria-label="Loading Spinner"
+        ></article>
+        <p
+          className="flex items-center justify-center gap-x-1 text-zinc-200 animate-pulse text-lg md:text-xl"
+          aria-label="Loading"
+        >
+          Loading Fact...
+        </p>
+      </div>
     );
   }
 
   if (categoriesError) {
-    return <p role="alert" className="text-red-500">Error: {categoriesError.message}</p>;
+    return <p role="alert" className="text-red-600 text-center mb-4 font-semibold text-lg md:text-xl">Error: {categoriesError.message}</p>;
   }
 
   return (
-    <section className='min-h-[80%] max-h-max flex flex-col justify-center items-center rounded-lg text-zinc-200'>
-      <h2 className='font-semibold mb-5 xs:text-2xl sm:text-3xl md:text-4xl uppercase xs:tracking-wide text-sky-500'>Categories</h2>
-      <ul className='flex justify-center items-center flex-wrap gap-3'>
+    <section className="flex flex-col items-center justify-center min-h-[80%] max-h-max rounded-lg text-zinc-200">
+      <h2 className="mb-5 font-semibold text-sky-500 uppercase tracking-wide xs:text-2xl sm:text-3xl md:text-4xl">Categories</h2>
+      <ul className="flex flex-wrap items-center justify-center gap-3">
         {categoriesData.getChuckNorrisCategories.map((category: string) => (
           <li
-            className='duration-150 hover:cursor-pointer outline outline-2 outline-zinc-200 hover:bg-zinc-300 hover:text-sky-500 px-2 md:px-4 py-1 rounded-full sm:text-xl md:text-2xl'
+            className="px-2 py-1 text-lg text-zinc-700 transition duration-150 ease-in-out bg-gradient-to-tl from-zinc-300 to-zinc-200 rounded-full cursor-pointer hover:from-zinc-200/40 hover:to-zinc-100/40 hover:text-sky-500 shadow-button-neumorphism dark:from-zinc-800 dark:to-zinc-700 dark:hover:from-zinc-800/40 dark:hover:to-zinc-700/40 dark:text-zinc-200 dark:shadow-dark-button-neumorphism sm:text-xl md:px-4 md:text-2xl"
             key={category}
             onClick={() => handleCategoryClick(category)}
             role="button"
@@ -42,15 +52,28 @@ const Categories: React.FC = () => {
           </li>
         ))}
       </ul>
-      <article className='w-full flex justify-center items-center mt-8'>
+      <article className="flex items-center justify-center w-full mt-8">
         {factLoading ? (
-            <><article className="xs:h-5 md:h-6 xs:w-5 md:w-6 mr-1.5 rounded-full animate-spin border-2 border-l-zinc-200 border-r-zinc-200 border-b-zinc-200 border-t-sky-500" role="status" aria-label="Loading Spinner"></article><p className='text-lg md:text-xl flex flex-row-reverse gap-x-1 text-zinc-200 animate-pulse' aria-label="Loading Fact">
-            Loading Fact...
-          </p></>
+          <>
+            <article
+              className="mr-1.5 h-5 w-5 animate-spin rounded-full border-2 border-l-zinc-700 border-r-zinc-700 border-b-zinc-700 border-t-sky-500 xs:h-5 md:h-6 xs:w-5 md:w-6 mb-4 dark:border-l-zinc-200 dark:border-r-zinc-200 dark:border-b-zinc-200"
+              role="status"
+              aria-label="Loading Spinner"
+            ></article>
+            <p
+              className="flex flex-row-reverse items-center justify-center gap-x-1 text-lg text-zinc-700 animate-pulse mb-4 md:text-xl dark:text-zinc-200"
+              aria-label="Loading Fact"
+            >
+              Loading Fact...
+            </p>
+          </>
         ) : factError ? (
           <p role="alert" className="text-red-500">Error: {factError.message}</p>
         ) : (
-          <p className='w-full text-center md:text-lg p-4 rounded-lg border-2 border-zinc-300 text-zinc-200 font-semibold' aria-live="polite">
+          <p
+            className="w-full p-4 text-lg font-semibold text-center text-zinc-700 bg-gradient-to-tl from-zinc-300 to-zinc-200 rounded-lg shadow-button-neumorphism dark:from-zinc-800 dark:to-zinc-700 dark:text-zinc-200 dark:shadow-dark-button-neumorphism hover:from-zinc-200/40 hover:to-zinc-100/40 dark:hover:from-zinc-800/40 dark:hover:to-zinc-700/40 md:text-lg mb-4"
+            aria-live="polite"
+          >
             {factData?.getChuckNorrisFactByCategory || "Click a category to get a fact"}
           </p>
         )}

@@ -35,13 +35,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <main className="flex flex-col min-h-screen max-h-max justify-center items-center bg-zinc-300 dark:bg-zinc-900 overflow-hidden font-Poppins py-20">
+    <main className="flex flex-col min-h-screen max-h-max justify-center items-center bg-gradient-to-br from-zinc-300 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 overflow-hidden font-Poppins py-20">
       <Header />
       <img 
         src={chuckDanceGif} 
-        className='w-20 sm:w-24 xs:landscape:mt-10 sm:landscape:mt-2 md:w-28' 
-        alt='Chuck Norris dancing' 
-        aria-label='Chuck Norris dancing'
+        className="w-20 sm:w-24 xs:landscape:mt-10 sm:landscape:mt-2 md:w-28 z-50" 
+        alt="Chuck Norris dancing" 
+        aria-label="Chuck Norris dancing"
       />
       <DarkModeButton onToggleTheme={toggleTheme} isDarkMode={isDarkMode} />
       
@@ -72,7 +72,7 @@ const LoadingFallback: React.FC = () => (
 );
 
 const LoadingBackdrop: React.FC = () => (
-  <div className="fixed inset-0 bg-gray-800 bg-opacity-80 z-50"></div>
+  <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-80"></div>
 );
 
 export default App;

@@ -10,17 +10,17 @@ interface DarkModeButtonProps {
 const DarkModeButton: React.FC<DarkModeButtonProps> = ({ onToggleTheme, isDarkMode }) => {
   return (
     <button
-        onClick={onToggleTheme}
-        className="p-2rounded fixed bottom-1.5 right-2 lg:mr-4 z-20 flex items-center justify-center text-xs lg:text-sm dark:text-zinc-200"
-        aria-label={`Switch to ${isDarkMode ? 'Dark' : 'Light'} mode`}
-        aria-pressed={isDarkMode}
+      onClick={onToggleTheme}
+      className="fixed bottom-1.5 right-2 lg:mr-4 z-20 flex items-center justify-center text-xs lg:text-sm dark:text-zinc-200 cursor-pointer hover:opacity-60"
+      aria-label={`Switch to ${isDarkMode ? 'Dark' : 'Light'} mode`}
+      aria-pressed={isDarkMode}
     >
-    <img 
-        src={isDarkMode ? Moon : Sun } 
-        alt={isDarkMode ? 'Moon icon' : 'Sun icon'} 
+      <img
+        src={isDarkMode ? Moon : Sun}
+        alt={isDarkMode ? 'Moon icon' : 'Sun icon'}
         className="w-3 h-3 mr-1"
-    />
-        {isDarkMode ? 'Dark' : 'Light'}
+      />
+      {isDarkMode ? 'Dark' : 'Light'}
     </button>
   );
 };
