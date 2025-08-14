@@ -22,7 +22,7 @@ app.use(
   graphqlHTTP({
     schema,
     rootValue: root,
-    graphiql: process.env.NODE_ENV !== "production",
+    graphiql: true,
   })
 );
 
