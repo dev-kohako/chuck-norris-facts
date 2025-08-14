@@ -1,31 +1,4 @@
 {
   "name": "chuck-norris-facts",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev server/src/index.ts",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@types/graphql": "^14.5.0",
-    "axios": "^1.7.2",
-    "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "express-graphql": "^0.12.0",
-    "graphql": "^15.9.0"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.14.6",
-    "cypress": "^13.12.0",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.4.5"
-  }
+  "version": "1.0.0"
 }
