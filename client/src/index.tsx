@@ -2,12 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-
-const client = new ApolloClient({
-  uri: 'https://chuck-norris-facts-kappa.vercel.app/graphql',  // Certifique-se de que a URI está correta
-  cache: new InMemoryCache(),
-});
+import { ApolloProvider } from '@apollo/client';
+import { client } from './utils/apolloClient';
 
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement!);
