@@ -22,7 +22,7 @@ app.use(
   graphqlHTTP({
     schema,
     rootValue: root,
-    graphiql: true,
+    graphiql: false,
   })
 );
 
