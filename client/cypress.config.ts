@@ -20,6 +20,6 @@ export default defineConfig({
     },
   },
   env: {
-    apiUrl: "https://api.chucknorris.io"
+    apiUrl: "https://api.chucknorris.io/jokes",
   }
 });

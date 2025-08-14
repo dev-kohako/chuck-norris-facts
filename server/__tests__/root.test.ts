@@ -4,7 +4,7 @@ import { apiClient } from '../src/utils/apiClient';
 
 
 const mock = new MockAdapter(apiClient);
-const BASE_URL = process.env.BASE_URL || 'https://api.chucknorris.io/';
+const BASE_URL = process.env.BASE_URL || 'https://api.chucknorris.io/jokes';
 
 describe('Chuck Norris GraphQL Resolvers', () => {
   afterEach(() => {
