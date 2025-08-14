@@ -58,7 +58,6 @@ const Categories: React.FC = () => {
 
       <ul
         className="flex flex-wrap items-center justify-center gap-3"
-        role="list"
         aria-label="Chuck Norris fact categories"
       >
         {categoriesData?.getChuckNorrisCategories.map((category: string) => (
