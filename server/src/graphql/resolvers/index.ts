@@ -46,7 +46,7 @@ export async function fetchWithRetry<T>(
         handleApiError(err, errorMessage);
       } catch (handleErr) {
         logger.error("[Error Handler Failure] " + String(handleErr));
-        throw err; // relança erro original
+        throw err;
       }
     }
   }
