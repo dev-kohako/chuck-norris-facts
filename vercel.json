@@ -17,5 +17,7 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [{ "src": "/(.*)", "dest": "server/src/index.ts" }]
+  "rewrites": [
+    { "source": "/(.*)", "destination": "server/src/index.ts" }
+  ]
 }
