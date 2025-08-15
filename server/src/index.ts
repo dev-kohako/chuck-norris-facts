@@ -13,17 +13,7 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 
 app.use(compression());
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
-        styleSrc: ["'self'", "'unsafe-inline'"]
-      }
-    }
-  })
-);
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
@@ -32,7 +22,7 @@ app.use(
   graphqlHTTP({
     schema,
     rootValue: root,
-    graphiql: true
+    graphiql: process.env.NODE_ENV !== "production"
   })
 );
 
