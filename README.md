@@ -4,7 +4,7 @@
 Bem-vindo ao Chuck Norris Facts, um aplicativo React que permite obter fatos aleatórios e pesquisar fatos de Chuck Norris por texto ou categoria. Utilizamos Apollo Client para gerenciar consultas GraphQL e oferecer uma experiência de usuário fluida.
 
 ## Link do App Online
-**https://kwk-chuck-norris-facts.netlify.app/**
+**https://chuck-norris-facts-kwk.vercel.app/**
 
 ## Tecnologias Utilizadas
 
