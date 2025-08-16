@@ -6,7 +6,7 @@ const RandomFact: React.FC = () => {
   
   return (
     <section
-      className="mt-4 w-full max-w-[85%] p-4 sm:p-6 md:px-8 md:py-6 bg-gradient-to-tl from-zinc-300 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 shadow-neumorphism dark:shadow-dark-neumorphism dark:text-zinc-200 rounded-lg text-center text-pretty xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] xl:landscape:min-w-[40%] xl:landscape:max-w-[40%]"
+      className="w-full max-w-[85%] p-4 sm:p-6 md:px-8 md:py-6 bg-gradient-to-tl from-zinc-300 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 shadow-neumorphism dark:shadow-dark-neumorphism dark:text-zinc-200 rounded-lg text-center text-pretty xs:max-w-[85%] xs:min-w-[85%] sm:max-w-[80%] sm:min-w-[80%] md:max-w-[70%] md:min-w-[70%] sm:landscape:min-w-[70%] sm:landscape:max-w-[70%] md:landscape:min-w-[60%] md:landscape:max-w-[60%] xl:landscape:min-w-[40%] xl:landscape:max-w-[40%]"
       aria-live="polite"
       aria-busy={loading}
     >
