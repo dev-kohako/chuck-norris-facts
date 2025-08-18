@@ -192,7 +192,10 @@ chuck-norris-facts/
 │   ├── package.json
 │   ├── Dockerfile
 │   └── tailwind.config.js
-├── server/                          # Backend GraphQL API
+```
+# Backend GraphQL API
+```
+├── server/                          
 │   ├── src/
 │   │   ├── graphql/
 │   │   │   ├── resolvers/
