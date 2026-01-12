@@ -7,14 +7,30 @@ import helmet from "helmet";
 import compression from "compression";
 import { errorHandler } from "./middlewares/errorHandler";
 import { logger } from "./utils/logger";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const PORT = process.env.PORT || 4000;
+const isDev = process.env.NODE_ENV !== "production";
 
 const app = express();
 
 app.use(compression());
-app.use(helmet());
-app.use(cors());
+
+app.use(
+  helmet({
+    contentSecurityPolicy: isDev ? false : undefined,
+  })
+);
+
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 app.use(
@@ -22,7 +38,7 @@ app.use(
   graphqlHTTP({
     schema,
     rootValue: root,
-    graphiql: process.env.NODE_ENV !== "production"
+    graphiql: isDev,
   })
 );
 
@@ -32,10 +48,14 @@ app.get("/health", (_req, res) => {
 
 app.use(errorHandler);
 
+console.log("Ambiente atual:", process.env.NODE_ENV);
+
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => {
     logger.info(`🚀 Server running at http://localhost:${PORT}/graphql`);
   });
+} else {
+  console.log("Servidor não iniciado: NODE_ENV é 'test'");
 }
 
 export default app;
