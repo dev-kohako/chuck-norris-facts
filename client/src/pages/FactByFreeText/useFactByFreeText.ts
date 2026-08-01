@@ -1,7 +1,12 @@
-import { useCallback, useState } from "react";
-import { FactDataSearch } from "../../types/types";
 import { useLazyQuery } from "@apollo/client";
+import { useState } from "react";
+
 import { GET_CHUCK_NORRIS_FACT_BY_TEXT } from "../../queries/getChuckNorrisByText";
+import { FactDataSearch } from "../../types/types";
+
+const INPUT_ID = "freeTextInput";
+const ERROR_ID = "inputError";
+const SECTION_ID = "freeTextSectionTitle";
 
 export const useFactByFreeText = () => {
   const [freeText, setFreeText] = useState("");
@@ -12,42 +17,32 @@ export const useFactByFreeText = () => {
     GET_CHUCK_NORRIS_FACT_BY_TEXT,
     {
       fetchPolicy: "network-only",
-      onCompleted: () => {
-        setHasSubmitted(true);
-      },
+      onCompleted: () => setHasSubmitted(true),
     }
   );
 
-  const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      setHasSubmitted(false);
+  // The React Compiler memoizes both handlers, so their identities stay stable
+  // across renders without `useCallback` wrappers.
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setHasSubmitted(false);
 
-      const trimmedText = freeText.trim();
-      if (trimmedText === "") {
-        setInputError(true);
-        return;
-      }
+    const trimmedText = freeText.trim();
+    if (trimmedText === "") {
+      setInputError(true);
+      return;
+    }
 
+    setInputError(false);
+    searchFacts({ variables: { query: trimmedText } });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFreeText(e.target.value);
+    if (inputError && e.target.value.trim() !== "") {
       setInputError(false);
-      searchFacts({ variables: { query: trimmedText } });
-    },
-    [freeText, searchFacts]
-  );
-
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setFreeText(e.target.value);
-      if (inputError && e.target.value.trim() !== "") {
-        setInputError(false);
-      }
-    },
-    [inputError]
-  );
-
-  const inputId = "freeTextInput";
-  const errorId = "inputError";
-  const sectionId = "freeTextSectionTitle";
+    }
+  };
 
   return {
     freeText,
@@ -56,9 +51,9 @@ export const useFactByFreeText = () => {
     loading,
     data,
     error,
-    inputId,
-    errorId,
-    sectionId,
+    inputId: INPUT_ID,
+    errorId: ERROR_ID,
+    sectionId: SECTION_ID,
     handleInputChange,
     handleSubmit,
   };

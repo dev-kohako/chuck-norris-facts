@@ -1,47 +1,47 @@
 import { useEffect, useState } from "react";
 
-export const useModal = (isOpen: boolean, onClose: () => void) => {
-  const [show, setShow] = useState(isOpen);
-  const [isMounted, setIsMounted] = useState(false);
-
-  const modalRoot = document.getElementById("modal-root") || document.body;
-  const el = document.createElement("div");
+/**
+ * `App` renders the dialog only while it is open, so the component never exists
+ * in a closed state — the `show` flag and the close-animation timer this hook
+ * used to carry could never run. What is left is the portal container, the
+ * Escape handler and the scroll lock.
+ */
+export const useModal = (onClose: () => void) => {
+  // Created once, through the lazy initializer. Building the node during render
+  // handed the effect a different element on every pass, so the portal — and
+  // everything inside it — was torn down and rebuilt on each render.
+  const [container] = useState(() => document.createElement("div"));
 
   useEffect(() => {
-    modalRoot.appendChild(el);
-    setIsMounted(true);
+    const root = document.getElementById("modal-root") ?? document.body;
+    root.appendChild(container);
 
-    const handleEscapeKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
+    return () => {
+      root.removeChild(container);
+    };
+  }, [container]);
+
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
     };
 
     document.addEventListener("keydown", handleEscapeKey);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscapeKey);
-      modalRoot.removeChild(el);
-    };
-  }, [el, modalRoot, isOpen, onClose]);
+    return () => document.removeEventListener("keydown", handleEscapeKey);
+  }, [onClose]);
 
   useEffect(() => {
-    if (isOpen) {
-      setShow(true);
-      document.body.style.overflow = "hidden";
-    } else {
-      setTimeout(() => {
-        setShow(false);
-        document.body.style.overflow = "auto";
-      }, 300);
-    }
-  }, [isOpen]);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) onClose();
   };
 
-  return { show, isMounted, el, handleBackdropClick };
+  return { container, handleBackdropClick };
 };

@@ -1,15 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { ApolloProvider } from '@apollo/client';
-import { client } from './utils/apolloClient';
+import { ApolloProvider } from "@apollo/client";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
-const rootElement = document.getElementById('root');
-const root = ReactDOM.createRoot(rootElement!);
+import App from "./App";
+import "./index.css";
+import { client } from "./utils/apolloClient";
 
-root.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element #root is missing from index.html");
+}
+
+createRoot(rootElement).render(
+  <StrictMode>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </StrictMode>
 );
