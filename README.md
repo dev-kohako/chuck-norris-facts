@@ -380,12 +380,12 @@ sprite, and three of them carry the whole system:
 | Sprite | Share | oklch | Role |
 |--------|-------|-------|------|
 | `#272c35` hat and outline | 46.5% | `oklch(0.292 0.018 262)` | the neutral ramp |
-| `#ffcc00` belt star | 0.8% | `oklch(0.865 0.177 90)` | `--primary` |
-| `#7da7d9` denim | 2.4% | `oklch(0.717 0.087 253)` | `--ring` |
+| `#7da7d9` denim | 2.4% | `oklch(0.717 0.087 253)` | `--primary` |
+| `#ffcc00` belt star | 0.8% | `oklch(0.865 0.177 90)` | `--ring` |
 
 - **Neutrals are not grey**: every one sits on hue 262 at low chroma — the hat, desaturated.
-- **Two signals, never confused**: gold carries actions, denim carries focus.
-- **The primary inverts between themes**: the sprite's `#ffcc00` is far too light to hold white text, so light mode darkens it to an ochre and dark mode uses the sprite value with dark text on top. Both clear 4.5:1.
+- **Two signals, never confused**: denim carries actions, gold carries focus.
+- **Both invert between themes**, because one value cannot serve both: `#7da7d9` is too light to hold white text, so light mode darkens it and dark mode keeps it bright over dark text. The gold ring does the same in reverse. Both clear 4.5:1.
 - **Tokens**: shadcn/ui variables in `src/index.css`; components live in `src/components/ui`.
 - **Typography**: Geist for the interface, Pixelify Sans reserved for the wordmark and hero title — the pixel face answering the pixel mascot. Both self-hosted through `@fontsource`, so the page makes no third-party font request.
 - **Dark Mode**: class-based and persisted, applied by an inline script before first paint so the page never flashes the wrong theme.

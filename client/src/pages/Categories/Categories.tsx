@@ -85,7 +85,13 @@ const Categories = () => {
         </ul>
       )}
 
-      <div className="bg-muted/50 mt-6 min-h-24 rounded-lg p-4" aria-live="polite">
+      {/* The min-height is what the centring actually centres against — without
+          it the panel collapses onto its content and the box jumps between the
+          empty, loading and loaded states. */}
+      <div
+        className="bg-muted/50 mt-6 flex min-h-28 items-center justify-center rounded-lg p-4 text-center"
+        aria-live="polite"
+      >
         {factLoading ? (
           <div
             className="text-muted-foreground flex items-center justify-center gap-2 py-4 text-sm"

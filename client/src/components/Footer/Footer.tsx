@@ -13,7 +13,7 @@ const Footer = () => {
                 px-4 backdrop-blur-md"
       aria-label={t("footer.label")}
     >
-      <p className="text-muted-foreground text-center text-xs sm:text-sm">
+      <p className="text-muted-foreground text-center text-[0.7rem] leading-none sm:text-xs">
         {t("footer.rights", { year: currentYear })}{" "}
         <a
           href="https://kwk.com"

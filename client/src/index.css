@@ -46,16 +46,16 @@
  * of them carry the whole palette:
  *
  *   #272c35  46.5%  oklch(0.292 0.018 262)  hat and outline  -> the neutral ramp
- *   #ffcc00   0.8%  oklch(0.865 0.177  90)  belt star        -> primary
- *   #7da7d9   2.4%  oklch(0.717 0.087 253)  denim            -> ring
+ *   #7da7d9   2.4%  oklch(0.717 0.087 253)  denim            -> primary
+ *   #ffcc00   0.8%  oklch(0.865 0.177  90)  belt star        -> ring
  *
  * So the greys are not grey: every neutral sits on hue 262 at low chroma, which
- * is the hat desaturated. Gold carries the actions, denim carries focus — two
+ * is the hat desaturated. Denim carries the actions and gold carries focus — two
  * different signals that never get confused for each other.
  *
- * The primary inverts between themes because one gold cannot serve both: the
- * sprite's #ffcc00 is far too light to hold white text, so light mode darkens it
- * to an ochre and dark mode uses the sprite value with dark text on top.
+ * Each inverts between themes, because one value cannot serve both. #7da7d9 is
+ * too light to hold white text, so light mode darkens it and dark mode keeps it
+ * bright over dark text; the gold ring does the same in reverse.
  */
 :root {
     --radius: 0.625rem;
@@ -67,8 +67,8 @@
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.22 0.018 262);
 
-    --primary: oklch(0.55 0.125 78);
-    --primary-foreground: oklch(0.99 0.01 90);
+    --primary: oklch(0.52 0.13 253);
+    --primary-foreground: oklch(0.99 0.005 253);
 
     --secondary: oklch(0.955 0.006 262);
     --secondary-foreground: oklch(0.26 0.018 262);
@@ -80,7 +80,7 @@
     --destructive: oklch(0.505 0.19 27);
     --border: oklch(0.9 0.008 262);
     --input: oklch(0.89 0.008 262);
-    --ring: oklch(0.55 0.09 253);
+    --ring: oklch(0.6 0.13 80);
 
     --header-height: 3.5rem;
     --footer-height: 2.75rem;
@@ -95,8 +95,8 @@
     --popover: oklch(0.245 0.017 262);
     --popover-foreground: oklch(0.96 0.004 262);
 
-    --primary: oklch(0.845 0.16 88);
-    --primary-foreground: oklch(0.22 0.03 80);
+    --primary: oklch(0.72 0.115 253);
+    --primary-foreground: oklch(0.19 0.025 253);
 
     --secondary: oklch(0.3 0.016 262);
     --secondary-foreground: oklch(0.96 0.004 262);
@@ -108,7 +108,7 @@
     --destructive: oklch(0.71 0.17 22);
     --border: oklch(1 0 0 / 12%);
     --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.72 0.087 253);
+    --ring: oklch(0.8 0.15 88);
 }
 
 @layer base {
@@ -127,6 +127,26 @@
 
     body {
         @apply bg-background text-foreground antialiased;
+    }
+
+    /* Tailwind's v4 preflight follows the browser default of `cursor: default`
+       on buttons, so every control in the app came out with an arrow. */
+    button:not(:disabled),
+    select:not(:disabled),
+    summary,
+    label[for],
+    a[href],
+    [role="button"]:not([aria-disabled="true"]),
+    [role="menuitem"],
+    [role="option"],
+    [role="tab"] {
+        cursor: pointer;
+    }
+
+    button:disabled,
+    select:disabled,
+    [aria-disabled="true"] {
+        cursor: not-allowed;
     }
 
     /* `.dark` has to carry the rule itself as well as its descendants: the root
