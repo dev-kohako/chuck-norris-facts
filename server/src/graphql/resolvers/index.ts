@@ -1,7 +1,8 @@
-import { FetchOptions } from "@/src/utils/types";
+import axios, { AxiosError } from "axios";
+
 import { apiClient } from "../../utils/apiClient";
 import { logger } from "../../utils/logger";
-import axios, { AxiosError } from "axios";
+import { FetchOptions } from "../../utils/types";
 
 export async function fetchWithRetry<T>(
   endpoint: string,
