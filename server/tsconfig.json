@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2022",
+    "lib": ["ES2022"],
     "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./",
+    "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["*"]
-    },
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noEmit": true,
     "types": ["node", "jest"]
   },
-  "include": ["src/**/*", "**/*.test.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "api/**/*", "__tests__/**/*", "jest.config.ts"]
 }
