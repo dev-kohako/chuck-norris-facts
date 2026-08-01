@@ -137,3 +137,11 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Cypress run artifacts
+client/cypress/screenshots/
+client/cypress/videos/
+client/cypress/downloads/
+
+# Claude Code local config
+.claude/
