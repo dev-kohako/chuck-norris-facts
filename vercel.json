@@ -14,7 +14,18 @@
   "routes": [
     { "src": "/api/graphql", "dest": "/server/api/index.ts" },
     { "src": "/health", "dest": "/server/api/index.ts" },
+    {
+      "src": "/assets/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/(.*)",
+      "headers": { "Cache-Control": "public, max-age=0, must-revalidate" },
+      "dest": "/index.html"
+    }
   ]
 }
