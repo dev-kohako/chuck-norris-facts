@@ -8,6 +8,9 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
@@ -50,6 +53,19 @@ const SearchByCategorySection = () => {
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-2xl">
+              {/* The title sits outside the lazy boundary on purpose: Radix
+                  names the dialog from it, and while the content chunk is still
+                  loading there would otherwise be no title in the tree at all —
+                  an unnamed dialog, which axe reports as `aria-dialog-name`. */}
+              <DialogHeader>
+                <DialogTitle className="font-heading text-xl font-semibold tracking-tight">
+                  {t("categories.title")}
+                </DialogTitle>
+                <DialogDescription>
+                  {t("categories.sectionTitle")}
+                </DialogDescription>
+              </DialogHeader>
+
               {/* Only loads when the dialog first opens — Radix unmounts the
                   content while closed. */}
               <Suspense fallback={<DialogLoading />}>
