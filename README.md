@@ -1,5 +1,9 @@
 # Chuck Norris Facts 🥋
 
+<div align="center">
+  <strong>English</strong> · <a href="./README.pt-BR.md">Português</a>
+</div>
+
 A modern full-stack React application that delivers random Chuck Norris facts and provides search functionality by text or category. Built with a GraphQL API backend and Apollo Client for seamless state management and data fetching.
 
 <div align="center">
@@ -19,9 +23,10 @@ Experience Chuck Norris facts like never before: **[https://chuck-norris-facts-k
 - 🎲 **Random Facts**: Get entertaining Chuck Norris facts with a single click
 - 🔍 **Smart Search**: Search facts by text content or browse by categories
 - 🌙 **Persistent Dark Mode**: Toggle between light and dark themes with localStorage persistence
+- 🌍 **Two languages**: English and Portuguese, detected from the browser
 - 📱 **Fully Responsive**: Optimized for all device sizes and screen resolutions
 - ⚡ **GraphQL Integration**: Efficient data fetching with Apollo Client
-- 🎨 **Modern UI**: Clean, intuitive interface built with Tailwind CSS
+- 🎨 **Modern UI**: shadcn/ui on Radix primitives, styled with Tailwind
 - 🔧 **TypeScript Support**: Type-safe development with full TypeScript integration
 
 ---
@@ -92,7 +97,7 @@ preflight.
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/chuck-norris-facts.git
+git clone https://github.com/dev-kohako/chuck-norris-facts.git
 cd chuck-norris-facts
 ```
 
@@ -231,9 +236,9 @@ chuck-norris-facts/
 
 > Tailwind v4 is configured in CSS (`src/index.css`, via `@theme`), so there is
 > no `tailwind.config.js` or `postcss.config.js`.
-# Backend GraphQL API
+
 ```
-├── server/                          
+├── server/                          # Backend GraphQL API
 │   ├── api/
 │   │   └── index.ts                 # Vercel entrypoint — exports the app, never listens
 │   ├── src/
@@ -356,6 +361,11 @@ static site and `server/api/index.ts` as a Node function. `/api/graphql` and
 `/health` route to the function, the filesystem handler serves the static build,
 and anything left falls through to `index.html`.
 
+> Vercel must have **Root Directory at the repository root** and the
+> **Framework Preset set to "Other"**. With Root Directory pointing at
+> `client`, the repo-root `vercel.json` is ignored and the API function never
+> ships.
+
 ### Docker
 `docker compose up --build` brings up the API on `:4000` and the app on `:3000`,
 with nginx proxying `/api/graphql` between them. The client waits on the
@@ -366,7 +376,7 @@ server's healthcheck.
 ## 🔒 Security Features
 
 - **Helmet.js**: Security headers protection
-- **CORS**: Cross-origin resource sharing configuration
+- **CORS**: the request's own origin is the authority — an `Origin` whose host matches the request host is the app talking to itself. `CLIENT_URL` exists for the genuinely cross-origin case
 - **Input Validation**: GraphQL schema validation
 - **Environment Variables**: Sensitive data protection
 
@@ -393,7 +403,7 @@ sprite, and three of them carry the whole system:
 - **Animations**: suppressed under `prefers-reduced-motion`.
 
 Verified with axe across light × dark and English × Portuguese, plus the dialog
-open in both themes: no violations.
+open in both themes: no violations. Those checks run as part of the e2e suite.
 
 ---
 
@@ -426,7 +436,7 @@ We welcome contributions! Please follow these steps:
 - Use TypeScript for all new code
 - Follow ESLint configuration
 - Write tests for new features
-- Update documentation as needed
+- Update documentation as needed — **both READMEs**, so they do not drift apart
 
 ---
 
