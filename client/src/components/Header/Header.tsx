@@ -1,21 +1,44 @@
 import React from "react";
+
 import logo from "../../assets/images/KWK.png";
-import { useHeader } from "./useHeader";
 import DarkModeButton from "../DarkModeButton/DarkModeButton";
+import { useHeader } from "./useHeader";
 
 const Header: React.FC = () => {
   const { isDarkMode, toggleTheme } = useHeader();
 
   return (
-    <header className="w-full flex justify-between items-center fixed top-0 bg-zinc-300/95 dark:bg-zinc-800/95 backdrop-blur-sm border-b border-zinc-400/50 dark:border-zinc-700 shadow-lg px-4 py-2 z-50" role="banner" aria-label="Site header">
-      <a href="/" className="flex items-center gap-2" aria-label="Go to homepage">
-        <img className="w-5 h-5 invert dark:invert-0" src={logo} alt="KWK Logo" aria-hidden="true" />
+    <header
+      className="fixed inset-x-0 top-0 z-50 flex h-[var(--header-height)] items-center justify-between
+                border-b border-zinc-400/50 bg-zinc-300/90 px-4 backdrop-blur
+                dark:border-zinc-700 dark:bg-zinc-800/90"
+      aria-label="Site header"
+    >
+      <a
+        href="/"
+        className="focus-ring flex items-center gap-2 rounded"
+        aria-label="Go to homepage"
+      >
+        <img
+          className="h-5 w-5 invert dark:invert-0"
+          src={logo}
+          alt="KWK Logo"
+          width={20}
+          height={20}
+          aria-hidden="true"
+        />
         <span className="sr-only">KWK</span>
       </a>
 
-      <div className="flex items-center">
+      <div className="flex items-center gap-1">
         <nav aria-label="Primary navigation">
-          <a href="/" className="text-zinc-900 dark:text-zinc-200 py-1 px-2 transition-colors duration-200 hidden xs:block" aria-current="page">
+          <a
+            href="/"
+            className="focus-ring hidden rounded px-2 py-1 text-sm font-medium text-zinc-900
+                      transition-colors duration-200 hover:text-sky-600
+                      xs:block dark:text-zinc-200 dark:hover:text-sky-400"
+            aria-current="page"
+          >
             Chuck Norris Facts
           </a>
         </nav>
