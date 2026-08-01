@@ -2,11 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import { Spinner } from "@/components/Spinner/Spinner";
 import { Button } from "@/components/ui/button";
-import {
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { useCategories } from "./useCategories";
@@ -28,21 +23,14 @@ const Categories = () => {
   } = useCategories();
   const { t } = useTranslation();
 
-  // The section carries no `aria-labelledby` and the title no `id`: Radix
-  // generates its own id for the dialog's accessible name, and overriding it
-  // leaves the dialog pointing at an element that no longer carries that id.
+  // The heading and description live in `SearchByCategorySection`, outside this
+  // lazy boundary, so the dialog has an accessible name from its first frame
+  // rather than only once this chunk arrives.
   return (
     <section>
-      <DialogHeader>
-        <DialogTitle className="font-heading text-xl font-semibold tracking-tight">
-          {t("categories.title")}
-        </DialogTitle>
-        <DialogDescription>{t("categories.sectionTitle")}</DialogDescription>
-      </DialogHeader>
-
       {categoriesLoading ? (
         <div
-          className="mt-6 flex flex-wrap gap-2"
+          className="flex flex-wrap gap-2"
           role="status"
           aria-label={t("categories.loadingAria")}
         >
@@ -55,13 +43,13 @@ const Categories = () => {
         <p
           role="alert"
           aria-live="assertive"
-          className="text-destructive mt-6 text-sm font-medium"
+          className="text-destructive text-sm font-medium"
         >
           {t("categories.loadError", { message: categoriesError.message })}
         </p>
       ) : (
         <ul
-          className="mt-6 flex flex-wrap justify-center gap-2"
+          className="flex flex-wrap justify-center gap-2"
           aria-label={t("categories.listAria")}
         >
           {categoriesData?.getChuckNorrisCategories.map((category: string) => {

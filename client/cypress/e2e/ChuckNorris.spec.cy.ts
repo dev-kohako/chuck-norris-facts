@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import type { Result } from "axe-core";
+
 describe("Chuck Norris Facts - E2E Tests", () => {
   const DEFAULT_TIMEOUT = 10000;
   const TEST_QUERY = "funny";
@@ -148,6 +150,83 @@ describe("Chuck Norris Facts - E2E Tests", () => {
       cy.get("h2").contains("Chuck Norris Random Fact").should("be.visible");
       cy.get("input#freeTextInput").should("be.visible").type(TEST_QUERY);
       cy.get('button[type="submit"]').should("be.visible");
+    });
+  });
+
+  context("8. Acessibilidade", () => {
+    // `cy.injectAxe()` already ran in the outer beforeEach, but nothing ever
+    // asserted on it — axe was loaded into every test and then ignored. These
+    // are the checks that make it mean something.
+
+    /** Prints the offending rules to the terminal, not just the browser log. */
+    const reportViolations = (violations: Result[]) => {
+      cy.task(
+        "log",
+        `${violations.length} violação(ões) de acessibilidade:\n` +
+          violations
+            .map(
+              (violation) =>
+                `  [${violation.impact}] ${violation.id} — ${violation.help}\n` +
+                violation.nodes
+                  .map((node) => `      ${node.target.join(" ")}`)
+                  .join("\n")
+            )
+            .join("\n")
+      );
+    };
+
+    const visitWith = (theme: "light" | "dark", language: "en" | "pt") => {
+      cy.visit("/", {
+        onBeforeLoad: (win) => {
+          win.localStorage.setItem("theme", theme);
+          win.localStorage.setItem("i18nextLng", language);
+        },
+      });
+      cy.get("main", { timeout: DEFAULT_TIMEOUT }).should("be.visible");
+      // Waiting for the fact means axe sees the loaded card, not the skeleton.
+      cy.contains(/chuck norris/i, { timeout: DEFAULT_TIMEOUT }).should(
+        "be.visible"
+      );
+      cy.injectAxe();
+    };
+
+    // Contrast is the failure mode most likely to come back, and it depends on
+    // both the theme and the copy, so every combination is covered.
+    (["light", "dark"] as const).forEach((theme) => {
+      (["en", "pt"] as const).forEach((language) => {
+        it(`8.x Não deve ter violações no tema ${theme} em ${language}`, () => {
+          visitWith(theme, language);
+          cy.checkA11y(undefined, undefined, reportViolations);
+        });
+      });
+    });
+
+    (["light", "dark"] as const).forEach((theme) => {
+      it(`8.y Não deve ter violações com o modal aberto no tema ${theme}`, () => {
+        visitWith(theme, "en");
+        cy.get("button").contains("Get Categories", { matchCase: false }).click();
+        // Scoped to the dialog on purpose: an unscoped `contains("h2", ...)`
+        // matches the section heading "Search for facts using Categories" on the
+        // page behind it, so it would pass without the dialog title ever
+        // existing.
+        cy.get('[data-slot="dialog-content"]')
+          .contains("h2", "Categories")
+          .should("be.visible");
+        // The dialog animates in; checking mid-transition reads a stale opacity.
+        cy.get('[data-slot="dialog-content"]').should("have.css", "opacity", "1");
+        // The category list arrives in a lazy chunk — wait for it so axe sees
+        // the finished dialog rather than the skeleton.
+        cy.get('[data-slot="dialog-content"] li button').should("have.length.at.least", 1);
+        // Radix marks the page behind the dialog `aria-hidden`, and the overlay
+        // dims it. Left in scope, axe reports the dimmed page text as a contrast
+        // failure — content that is both inert and hidden from assistive tech,
+        // which is the whole point of a modal.
+        cy.checkA11y(
+          { exclude: ['[aria-hidden="true"]'] },
+          undefined,
+          reportViolations
+        );
+      });
     });
   });
 });
