@@ -1,384 +1,45 @@
-# Chuck Norris Facts 🥋
-
 <div align="center">
-  <a href="./README.md">English</a> · <strong>Português</strong>
+
+<img src="./docs/mascot.gif" width="76" height="76" alt="" />
+
+# Chuck Norris Facts
+
+**Fatos aleatórios do Chuck Norris, buscáveis por categoria ou por texto.**
+
+[![React](https://img.shields.io/badge/React-19-087EA4?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
+[![React Compiler](https://img.shields.io/badge/React_Compiler-1.0-087EA4?style=flat-square)](https://react.dev/learn/react-compiler)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind](https://img.shields.io/badge/Tailwind-4.3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![GraphQL](https://img.shields.io/badge/GraphQL-16-E10098?style=flat-square&logo=graphql&logoColor=white)](https://graphql.org/)
+[![Vitest](https://img.shields.io/badge/Vitest-4.1-6E9F18?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Cypress](https://img.shields.io/badge/Cypress-13-69D3A7?style=flat-square&logo=cypress&logoColor=white)](https://www.cypress.io/)
+
+[**Ver funcionando**](https://chuck-norris-facts-kwk.vercel.app/) · [English](README.md)
+
 </div>
 
-Uma aplicação full-stack em React que entrega fatos aleatórios do Chuck Norris e permite buscá-los por texto ou por categoria. Backend em GraphQL e Apollo Client no cliente, para busca de dados e gerenciamento de estado.
+---
+
+## Em resumo
+
+Um front em React e um gateway GraphQL meu na frente da
+[api.chucknorris.io](https://api.chucknorris.io/). Clica e vem um fato
+aleatório, navega pelas categorias, ou busca por texto. A interface fala inglês
+e português, e escolhe o que o navegador pedir.
+
+O gateway existe para o navegador falar sempre com uma origem só. A Vercel
+roteia `/api/graphql` para uma função, a imagem nginx faz proxy para o contêiner
+do servidor, e o dev server do Vite faz proxy para `localhost:4000` — o mesmo
+formato nos três. O cliente já assume o caminho relativo `/api/graphql`, então
+não existe URL de API para configurar em lugar nenhum, nem preflight de CORS na
+operação normal.
 
 <div align="center">
-  <img src="./docs/screenshot.png" alt="Prévia da aplicação Chuck Norris Facts" width="700" />
+  <img src="./docs/screenshot.png" alt="Chuck Norris Facts" width="760" />
 </div>
 
----
-
-## 🚀 Demo
-
-Veja funcionando: **[https://chuck-norris-facts-kwk.vercel.app/](https://chuck-norris-facts-kwk.vercel.app/)**
-
----
-
-## ✨ Funcionalidades
-
-- 🎲 **Fatos aleatórios**: um fato novo do Chuck Norris a cada clique
-- 🔍 **Busca**: por texto livre ou navegando pelas categorias
-- 🌙 **Tema escuro persistente**: alterna entre claro e escuro e guarda a escolha no `localStorage`
-- 🌍 **Dois idiomas**: inglês e português, detectados do navegador
-- 📱 **Responsivo**: pensado para qualquer tamanho de tela
-- ⚡ **GraphQL**: busca de dados eficiente com Apollo Client
-- 🎨 **Interface moderna**: shadcn/ui sobre primitivos Radix, estilizado com Tailwind
-- 🔧 **TypeScript**: tipagem de ponta a ponta
-
----
-
-## 🏗️ Arquitetura
-
-A API é servida na **mesma origem** que a aplicação em todos os ambientes — a
-Vercel roteia `/api/graphql` para a função, a imagem nginx faz proxy para o
-contêiner do servidor, e o dev server do Vite faz proxy para `localhost:4000`.
-Por isso o cliente não precisa de nenhuma URL de API configurada, e o navegador
-nunca dispara um preflight de CORS.
-
-### Frontend (client)
-- **React 19** com TypeScript
-- **React Compiler** para memoização automática — sem `useCallback`/`useMemo` escritos à mão
-- **Vite** para o dev server e o build de produção
-- **Apollo Client** para o estado GraphQL
-- **shadcn/ui** sobre primitivos Radix, estilizado com **Tailwind CSS v4**
-- **i18next** para inglês e português
-- **Lucide React** para os ícones
-
-### Backend (server)
-- **Node.js** com **Express**
-- API **GraphQL** servida por graphql-http
-- **TypeScript** no servidor
-- **Axios** para a integração com a API externa
-- **Helmet** e **CORS** para segurança
-
----
-
-## 🛠️ Stack
-
-### Dependências do frontend
-| Pacote | Versão | Função |
-|--------|--------|--------|
-| React | ^19.2.8 | Biblioteca de UI |
-| Apollo Client | ^3.14.1 | Cliente GraphQL |
-| Vite | ^8.2.0 | Ferramenta de build |
-| babel-plugin-react-compiler | ^1.0.0 | Memoização automática |
-| shadcn/ui (radix-nova) | — | Camada de componentes |
-| Tailwind CSS | ^4.3.3 | Estilização |
-| i18next / react-i18next | ^26 / ^17 | Internacionalização |
-| TypeScript | ^5.9.3 | Tipagem |
-| Lucide React | ^0.539.0 | Ícones |
-| Vitest | ^4.1.10 | Testes unitários |
-
-### Dependências do backend
-| Pacote | Versão | Função |
-|--------|--------|--------|
-| Express | ^4.19.2 | Framework web |
-| GraphQL | ^16.11.0 | Linguagem de consulta |
-| graphql-http | ^1.22.4 | GraphQL sobre HTTP |
-| Axios | ^1.7.2 | Cliente HTTP |
-| Pino | ^9.6.0 | Log estruturado |
-| TypeScript | ^5.4.5 | Tipagem |
-
----
-
-## 🚀 Como rodar
-
-### Pré-requisitos
-- Node.js `^20.19.0 || >=22.12.0` (o mínimo que o Vite 8 exige)
-- npm
-
-### Instalação
-
-```bash
-# Clone o repositório
-git clone https://github.com/dev-kohako/chuck-norris-facts.git
-cd chuck-norris-facts
-```
-
-### Backend
-
-```bash
-# Vá para o diretório do servidor
-cd server
-
-# Instale as dependências
-npm install
-
-# Crie o arquivo de ambiente
-cp .env.example .env
-
-# Suba o servidor de desenvolvimento
-npm run dev
-```
-
-O servidor GraphQL fica em `http://localhost:4000/graphql`
-
-### Frontend
-
-```bash
-# Vá para o diretório do cliente (em outro terminal)
-cd client
-
-# Instale as dependências
-npm install
-
-# Suba o dev server do Vite
-npm run dev
-```
-
-A aplicação fica em `http://localhost:3000`, com `/api/graphql` já roteado por
-proxy para o servidor acima — não é preciso `.env` a menos que você queira
-apontar para uma API em outro lugar.
-
----
-
-## 📜 Scripts disponíveis
-
-### Frontend
-| Comando | Descrição |
-|---------|-----------|
-| `npm run dev` | Sobe a aplicação no dev server do Vite, com a API por proxy |
-| `npm run build` | Gera o build de produção em `dist/` |
-| `npm run preview` | Serve o build de produção localmente |
-| `npm test` | Roda os testes unitários (Vitest) |
-| `npm run typecheck` | Checa tipos sem emitir arquivos |
-| `npm run lint` | Roda o ESLint, incluindo os diagnósticos do React Compiler |
-| `npm run cypress:open` | Abre o Cypress para os testes e2e |
-| `npm run cypress:run` | Roda os testes do Cypress em modo headless |
-
-### Backend
-| Comando | Descrição |
-|---------|-----------|
-| `npm run dev` | Sobe o servidor GraphQL com hot reload |
-| `npm run build` | Compila o TypeScript em `dist/` |
-| `npm start` | Roda o servidor compilado |
-| `npm test` | Roda os testes do servidor |
-| `npm run typecheck` | Checa tipos de `src`, `api` e dos testes |
-
----
-
-## 📁 Estrutura do projeto
-
-```
-chuck-norris-facts/
-├── client/                          # Aplicação React
-│   ├── index.html                   # Documento de entrada do Vite
-│   ├── components.json              # Configuração do shadcn/ui
-│   ├── public/
-│   │   ├── chuck-logo.png
-│   │   └── manifest.json
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ui/                  # Primitivos do shadcn/ui
-│   │   │   ├── DarkModeButton/
-│   │   │       ├── DarkModeButton.tsx
-│   │   │       └── useDarkModeButton.ts
-│   │   │   ├── Footer/
-│   │   │       ├── Footer.tsx
-│   │   │       └── useFooter.ts
-│   │   │   ├── Header/
-│   │   │       ├── Header.tsx
-│   │   │       └── useHeader.ts
-│   │   │   ├── LanguageSwitcher/
-│   │   │       └── LanguageSwitcher.tsx
-│   │   │   ├── Spinner/
-│   │   │       └── Spinner.tsx
-│   │   │   └── SearchByCategorySection/
-│   │   │       ├── SearchByCategorySection.tsx
-│   │   │       └── useSearchByCategorySection.ts
-│   │   ├── i18n/
-│   │   │   ├── index.ts
-│   │   │   └── locales/
-│   │   │       ├── en.json
-│   │   │       └── pt.json
-│   │   ├── lib/
-│   │   │   └── utils.ts             # cn()
-│   │   ├── assets/
-│   │   │   └── images/
-│   │   ├── pages/
-│   │   │   ├── Categories/
-│   │   │       ├── Categories.tsx
-│   │   │       └── useCategories.ts
-│   │   │   ├── FactByFreeText/
-│   │   │       ├── FactByFreeText.tsx
-│   │   │       └── useFactByFreeText.ts
-│   │   │   └── RandomFact/
-│   │   │       ├── RandomFact.tsx
-│   │   │       └── useRandomFact.ts
-│   │   ├── queries/
-│   │   │   ├── getChuckNorrisByCategories.ts
-│   │   │   ├── getChuckNorrisByText.ts
-│   │   │   ├── getChuckNorrisCategories.ts
-│   │   │   └── getChuckNorrisFact.ts
-│   │   ├── types/
-│   │   │   └── types.ts
-│   │   ├── utils/
-│   │   │   └── apolloClient.ts
-│   │   ├── App.test.tsx
-│   │   ├── App.tsx
-│   │   ├── index.css                # Tema do Tailwind v4 + tokens do shadcn/ui
-│   │   ├── index.tsx
-│   │   ├── setupTests.ts
-│   │   └── vite-env.d.ts
-│   ├── cypress/                     # Testes ponta a ponta
-│   ├── package.json
-│   ├── Dockerfile
-│   ├── nginx.conf
-│   ├── eslint.config.js
-│   └── vite.config.ts
-```
-
-> O Tailwind v4 é configurado em CSS (`src/index.css`, via `@theme`), então não
-> existe `tailwind.config.js` nem `postcss.config.js`.
-
-```
-├── server/                          # API GraphQL
-│   ├── api/
-│   │   └── index.ts                 # Entrypoint da Vercel — exporta o app, nunca escuta
-│   ├── src/
-│   │   ├── graphql/
-│   │   │   ├── resolvers/
-│   │   │       └── index.ts
-│   │   │   ├── schema/
-│   │   │       └── index.ts
-│   │   ├── middlewares/
-│   │   │   └── errorHandler.ts
-│   │   ├── utils/
-│   │   │   ├── apiClient.ts
-│   │   │   ├── logger.ts
-│   │   │   ├── ttlCache.ts          # Cache em processo da lista de categorias
-│   │   │   ├── types.ts
-│   │   ├── app.ts                   # Monta o app express
-│   │   └── index.ts                 # Entrypoint local e Docker — escuta
-│   ├── __tests__/
-│   ├── package.json
-│   ├── Dockerfile
-│   ├── jest.config.ts
-│   ├── tsconfig.build.json
-│   └── .env.example
-├── docker-compose.yml
-└── README.md
-```
-
----
-
-## 🔧 Variáveis de ambiente
-
-Crie um `.env` no diretório do servidor:
-
-```env
-PORT=4000
-NODE_ENV=development
-
-# API de fatos. Assume https://api.chucknorris.io/jokes se não for definida.
-BASE_URL=
-
-# Só é necessária quando o cliente é servido de uma origem diferente do servidor.
-CLIENT_URL=http://localhost:3000
-
-# Nível do pino: fatal | error | warn | info | debug | trace. Assume info.
-LOG_LEVEL=
-```
-
-O cliente lê `VITE_API_URL`, que é opcional — deixe em branco e a aplicação fala
-com `/api/graphql` na própria origem.
-
----
-
-## 📊 API
-
-### Schema GraphQL
-
-A API achata cada fato vindo da origem para o seu texto, então todo campo
-resolve para `String` em vez de um objeto.
-
-```graphql
-type Query {
-  """Retorna um fato aleatório do Chuck Norris."""
-  getChuckNorrisFact: String!
-
-  """Retorna todas as categorias de fatos disponíveis."""
-  getChuckNorrisCategories: [String!]!
-
-  """Retorna um fato aleatório da categoria informada."""
-  getChuckNorrisFactByCategory(category: String!): String!
-
-  """Busca fatos pelo texto e retorna o primeiro resultado."""
-  searchFacts(query: String!): String!
-}
-```
-
-Servida em `POST /api/graphql` (e em `/graphql`, que é o caminho usado pelo dev
-server local e pela imagem Docker). `GET /health` reporta se o serviço está de pé.
-
-### Cache
-
-A lista de categorias é um vocabulário fixo que não muda há anos, então ela é
-cacheada nas duas pontas: por uma hora no processo do servidor
-(`src/utils/ttlCache.ts`, que também compartilha a promise em voo para um cache
-frio não virar N chamadas à origem) e no cache do Apollo no cliente. Buscas por
-texto são determinísticas para um mesmo termo, então também são `cache-first`.
-
-Os fatos em si nunca são cacheados — sortear um novo é justamente o objetivo.
-
----
-
-## 🧪 Testes
-
-### Frontend
-```bash
-cd client
-
-# Testes unitários
-npm test
-
-# Testes ponta a ponta
-npm run cypress:open
-```
-
-### Backend
-```bash
-cd server
-
-# Testes do servidor
-npm test
-```
-
----
-
-## 🌐 Deploy
-
-### Vercel
-O `vercel.json` publica as duas metades a partir deste mesmo repositório:
-`client` como site estático e `server/api/index.ts` como função Node.
-`/api/graphql` e `/health` vão para a função, o handler de filesystem serve o
-build estático, e o que sobrar cai no `index.html`.
-
-> A Vercel precisa estar com **Root Directory na raiz do repositório** e o
-> **Framework Preset em "Other"**. Se o Root Directory apontar para `client`, o
-> `vercel.json` da raiz é ignorado e a função da API nunca sobe.
-
-### Docker
-`docker compose up --build` sobe a API em `:4000` e a aplicação em `:3000`, com
-o nginx fazendo proxy de `/api/graphql` entre as duas. O cliente aguarda o
-healthcheck do servidor.
-
----
-
-## 🔒 Segurança
-
-- **Helmet.js**: cabeçalhos de segurança
-- **CORS**: a origem da própria requisição é a autoridade — um `Origin` cujo host bate com o host da requisição é a aplicação falando com ela mesma. `CLIENT_URL` existe para o caso genuinamente cross-origin
-- **Validação de entrada**: pelo próprio schema GraphQL
-- **Variáveis de ambiente**: dados sensíveis fora do código
-
----
-
-## 🎨 Design system
+## O visual
 
 A paleta é amostrada do mascote. O `chuck-dancing.gif` é um sprite de dez cores,
 e três delas sustentam o sistema inteiro:
@@ -389,77 +50,180 @@ e três delas sustentam o sistema inteiro:
 | `#7da7d9` jeans | 2,4% | `oklch(0.717 0.087 253)` | `--primary` |
 | `#ffcc00` estrela do cinto | 0,8% | `oklch(0.865 0.177 90)` | `--ring` |
 
-- **Os cinzas não são cinzas**: todo neutro fica no matiz 262 com croma baixo — o chapéu, dessaturado.
-- **Dois sinais, nunca confundidos**: o jeans carrega as ações, o ouro carrega o foco.
-- **Os dois invertem entre os temas**, porque um valor só não serve para ambos: `#7da7d9` é claro demais para segurar texto branco, então o tema claro escurece e o escuro mantém brilhante sobre texto escuro. O anel dourado faz o inverso. Ambos passam de 4.5:1.
-- **Tokens**: variáveis do shadcn/ui em `src/index.css`; os componentes ficam em `src/components/ui`.
-- **Tipografia**: Geist na interface e Pixelify Sans reservada ao wordmark e ao título do hero — a cara pixelada respondendo ao mascote pixelado. As duas são auto-hospedadas via `@fontsource`, então a página não faz nenhuma requisição de fonte a terceiros.
-- **Tema escuro**: baseado em classe e persistido, aplicado por um script inline antes da primeira pintura, para a página nunca piscar no tema errado.
-- **Foco**: apenas `focus-visible`, então o anel é para quem navega por teclado.
-- **Animações**: suprimidas sob `prefers-reduced-motion`.
+Então os cinzas não são cinzas — todo neutro fica no matiz 262 com croma baixo,
+que é o chapéu dessaturado. O jeans carrega as ações e o ouro carrega o foco,
+dois sinais que nunca se confundem. Cada um inverte entre os temas, porque um
+valor só não serve para ambos: `#7da7d9` é claro demais para segurar texto
+branco, então o tema claro escurece e o escuro mantém brilhante sobre texto
+escuro.
 
-Verificado com o axe em claro × escuro e inglês × português, mais o modal aberto
-nos dois temas: nenhuma violação. Essas checagens rodam na suíte e2e.
+Geist na interface, Pixelify Sans só no wordmark e no título do hero — a cara
+pixelada respondendo ao mascote pixelado, e ilegível em tamanho de corpo. As
+duas são auto-hospedadas, então a página não faz nenhuma requisição de fonte a
+terceiros. O tema é aplicado por um script inline antes da primeira pintura,
+então ela nunca pisca no tema errado.
 
----
+## Por dentro
 
-## 🌍 Internacionalização
+Quatro coisas que valem saber.
 
-Inglês e português, via `i18next` com detecção pelo navegador e cache em
-`localStorage`. Os dois dicionários vão no bundle em vez de serem buscados —
-somados dão menos de 4 kB, e um backend lazy trocaria isso por uma ida à rede
-bloqueando a renderização, com um flash de chaves não traduzidas atrás.
+**Uma origem, e o servidor comprova.** Um header `Origin` presente não quer
+dizer que a requisição é cross-origin — o navegador anexa ele em requisição
+same-origin também, sempre que o método não é GET ou HEAD, o que é toda chamada
+GraphQL. Comparar contra uma lista fixa fez a aplicação publicada recusar a si
+mesma com 403. O servidor compara o host da origem com o host da própria
+requisição, o que também sobrevive aos previews da Vercel, onde cada deploy
+ganha um hostname próprio.
 
-- Os textos ficam em `src/i18n/locales/{en,pt}.json`.
-- `pt-BR` e `pt-PT` resolvem os dois para `pt`; aqui existe um português só.
-- O `<html lang>` é mantido em sincronia com o idioma ativo — leitores de tela e hifenização dependem dele, e o axe reprova um documento sem ele.
-- Um teste garante que os dois dicionários têm exatamente o mesmo conjunto de chaves: uma chave faltando cai em inglês silenciosamente, então o buraco só apareceria como texto não traduzido na frente do usuário.
-- A suíte e2e fixa `i18nextLng` em `en`, já que as asserções são escritas contra os textos em inglês.
+**A lista de categorias é cacheada, os fatos não.** Categorias são um
+vocabulário fixo que não muda há anos, então ficam uma hora no processo do
+servidor e no cache do Apollo no cliente. O cache compartilha a promise em voo,
+para um início frio não virar uma chamada à origem por requisição concorrente, e
+serve o valor velho se a atualização falhar. Fatos nunca são cacheados —
+sortear um novo é justamente o objetivo.
 
----
+**Nenhuma memoização escrita à mão.** O React Compiler deriva isso do que cada
+handler de fato captura, o que é mais preciso que um array de dependências que
+alguém precisa manter. O plugin `react-hooks` do ESLint traz os diagnósticos do
+próprio compiler, então um padrão que tiraria um componente da compilação
+silenciosamente reprova no lint em vez de degradar quieto.
 
-## 🤝 Contribuindo
+**O dialog é do Radix.** Isso traz o focus trap, o fundo inerte e o bloqueio de
+scroll. O título dele fica de propósito *fora* da fronteira lazy: o conteúdo é
+code-split, e enquanto esse chunk baixa um título declarado lá dentro ainda não
+existiria, deixando o dialog sem nome para quem usa leitor de tela.
 
-1. Faça um fork do repositório
-2. Crie sua branch (`git checkout -b feat/minha-feature`)
-3. Faça o commit das mudanças (`git commit -m 'feat: adiciona minha feature'`)
-4. Faça o push da branch (`git push origin feat/minha-feature`)
-5. Abra um Pull Request
+## Com o que foi feito
 
-### Padrões de código
-- TypeScript em todo código novo
-- Siga a configuração do ESLint
-- Escreva testes para novas funcionalidades
-- Atualize a documentação — **os dois READMEs**, para não saírem de sincronia
+| | | |
+|---|---|---|
+| [React](https://react.dev/) | 19 | Interface |
+| [React Compiler](https://react.dev/learn/react-compiler) | 1.0 | Memoização automática |
+| [TypeScript](https://www.typescriptlang.org/) | 5.9 | Tipagem, modo estrito |
+| [Vite](https://vite.dev/) | 8.2 | Build e dev server |
+| [Tailwind CSS](https://tailwindcss.com/) | 4.3 | Estilo, configurado em CSS |
+| [shadcn/ui](https://ui.shadcn.com/) | radix-nova | Componentes, sobre Radix |
+| [Apollo Client](https://www.apollographql.com/docs/react/) | 3.14 | Cliente e cache GraphQL |
+| [i18next](https://www.i18next.com/) | 26 | Inglês e português |
+| [Express](https://expressjs.com/) | 4.19 | Gateway |
+| [graphql-http](https://github.com/graphql/graphql-http) | 1.22 | GraphQL sobre HTTP |
+| [Vitest](https://vitest.dev/) | 4.1 | Testes unitários |
+| [Cypress](https://www.cypress.io/) | 13 | Ponta a ponta e acessibilidade |
 
----
+## Rodando na sua máquina
 
-## 📄 Licença
+Node `^20.19.0 || >=22.12.0` — o mínimo que o Vite 8 exige.
 
-Este projeto está sob a licença MIT — veja o arquivo [LICENSE](LICENSE) para os detalhes.
+```bash
+git clone https://github.com/dev-kohako/chuck-norris-facts.git
+cd chuck-norris-facts
 
----
+# gateway
+cd server && npm install && cp .env.example .env && npm run dev
 
-## 🙏 Agradecimentos
+# aplicação, em outro terminal
+cd client && npm install && npm run dev
+```
 
-- [Chuck Norris API](https://api.chucknorris.io/) pelos dados dos fatos
-- [Apollo GraphQL](https://www.apollographql.com/) pelas ferramentas de GraphQL
-- [Tailwind CSS](https://tailwindcss.com/) pelo framework CSS utility-first
+A aplicação abre em `http://localhost:3000` com `/api/graphql` já roteado para o
+gateway na `:4000`. O cliente não precisa de `.env` a menos que você queira
+apontar para uma API em outro lugar — aí é só definir `VITE_API_URL`.
 
----
+`docker compose up --build` sobe o mesmo par com o nginx na frente.
 
-## 👨‍💻 Autor
+## Scripts
 
-**Joseph Kawe**
+Cliente:
 
-- GitHub: [https://github.com/dev-kohako](https://github.com/dev-kohako)
-- LinkedIn: [https://www.linkedin.com/in/josephkawe/](https://www.linkedin.com/in/josephkawe/)
-- E-mail: josephkawe000@gmail.com
+| | |
+|---|---|
+| `npm run dev` | Dev server, com a API por proxy |
+| `npm run build` | Build de produção em `dist/` |
+| `npm run preview` | Serve o build localmente |
+| `npm test` | Vitest |
+| `npm run typecheck` | Tipagem, sem emitir |
+| `npm run lint` | ESLint, com as regras do React Compiler |
+| `npm run cypress:run` | Ponta a ponta, headless |
 
----
+Servidor:
 
-<div align="center">
-  <p>🥋 Feito com ❤️ e um chute giratório por Joseph Kawe</p>
-  <p>⭐ Dá uma estrela se o Chuck Norris aprovaria!</p>
-  <p><em>"Chuck Norris não precisa de README, mas o código dele precisa."</em></p>
-</div>
+| | |
+|---|---|
+| `npm run dev` | Gateway com hot reload |
+| `npm run build` | Compila para `dist/` |
+| `npm start` | Roda o servidor compilado |
+| `npm test` | Jest |
+| `npm run typecheck` | Tipagem de `src`, `api` e dos testes |
+
+## Testes
+
+Os resolvers são cobertos contra uma origem mockada, cache incluído: que uma
+segunda chamada não vai à rede, e que três chamadas concorrentes compartilham
+uma requisição só. O CORS é coberto contra um servidor real em porta efêmera —
+sem `Origin`, com um same-origin, com um estrangeiro, e com um estrangeiro que o
+`CLIENT_URL` permite.
+
+No cliente, o Vitest cobre o card de fato ponta a ponta contra um link mockado e
+verifica que os dois dicionários de tradução têm exatamente as mesmas chaves.
+Uma chave faltando cai em inglês silenciosamente, então o buraco só apareceria
+como texto não traduzido na frente do usuário.
+
+O Cypress dirige a aplicação de verdade, e as checagens de acessibilidade rodam
+o axe em claro e escuro nos dois idiomas, mais o dialog aberto em cada tema. O
+contraste depende do tema e do texto juntos, e é por isso que todas as
+combinações estão lá.
+
+## Onde fica o quê
+
+```
+client/
+├── src/
+│   ├── components/ui/   primitivos do shadcn, editados no lugar
+│   ├── i18n/            configuração e os dicionários en/pt
+│   ├── pages/           uma pasta por seção, componente + hook
+│   └── index.css        tema do Tailwind e os tokens de design
+└── cypress/e2e/         a suíte ponta a ponta e o axe
+
+server/
+├── api/index.ts         entrypoint da Vercel — exporta o app, nunca escuta
+├── src/
+│   ├── app.ts           monta o app express
+│   ├── index.ts         entrypoint local e Docker — escuta
+│   ├── graphql/         schema e resolvers
+│   └── utils/ttlCache   o cache de categorias
+└── __tests__/
+```
+
+O Tailwind 4 dispensa `tailwind.config`: tema e variantes ficam em
+`client/src/index.css`, com `@theme` e `@custom-variant`.
+
+## Deploy
+
+Está na [Vercel](https://chuck-norris-facts-kwk.vercel.app/), com as duas
+metades saindo deste mesmo repositório — `client` como build estático e
+`server/api/index.ts` como função Node.
+
+| | |
+|---|---|
+| Root Directory | raiz do repositório |
+| Framework Preset | Other |
+| Config | `vercel.json` |
+
+Esses dois primeiros importam. Aponte o Root Directory para `client` e o
+`vercel.json` da raiz nunca é lido, então a função da API não sobe — foi assim
+que `/api/graphql` respondeu 405 em produção por meses enquanto a página
+carregava normalmente.
+
+## Licença
+
+[MIT](LICENSE) — pega, usa, modifica. Se te ajudou, me conta.
+
+## Quem fez
+
+**Joseph Kawe**, sob a marca KWK.
+
+[GitHub](https://github.com/dev-kohako) ·
+[LinkedIn](https://www.linkedin.com/in/josephkawe/) ·
+[Instagram](https://www.instagram.com/kohako.dev/) ·
+[YouTube](https://www.youtube.com/@dev_kohako) ·
+[Bento](https://bento.me/kohako)
