@@ -1,26 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es5", // Escolha de acordo com o ambiente de deploy
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
+
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext", // Ou "commonjs" se necessário
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "isolatedModules": true,
-    "noEmit": true, // Não emitir arquivos de saída TypeScript
-    "jsx": "preserve" // Manter JSX para que o Babel ou webpack faça a transformação
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmit": true
   },
-  "include": [
-    "src" // Inclui todos os arquivos dentro do diretório "src"
-  ]
+  "include": ["src", "vite.config.ts", "cypress.config.ts"]
 }
