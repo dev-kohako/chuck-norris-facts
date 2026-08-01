@@ -1,6 +1,6 @@
 import compression from "compression";
-import cors, { type CorsOptions } from "cors";
-import express, { type Express } from "express";
+import cors, { type CorsOptionsDelegate } from "cors";
+import express, { type Express, type Request } from "express";
 import { createHandler } from "graphql-http/lib/use/express";
 import helmet from "helmet";
 
@@ -20,32 +20,65 @@ export const GRAPHQL_PATHS = ["/graphql", "/api/graphql"];
 
 const DEFAULT_CLIENT_URL = "http://localhost:3000";
 
-function buildCorsOptions(): CorsOptions {
+const hostOf = (value: string): string | null => {
+  try {
+    return new URL(value).host;
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * The deployment model is same-origin everywhere — Vercel routes `/api/graphql`
+ * to this function, nginx proxies it, the Vite dev server proxies it — so the
+ * request's own host is the authority on what is allowed. `CLIENT_URL` is only
+ * for the genuinely cross-origin case.
+ *
+ * Comparing against the host rather than a fixed list matters because the
+ * allowed origin is not knowable at deploy time: every Vercel preview gets its
+ * own hostname.
+ */
+const corsDelegate: CorsOptionsDelegate<Request> = (req, callback) => {
+  const origin = req.headers.origin;
+
+  // No Origin at all: curl, a server-to-server call, or a same-origin GET.
+  // Nothing for the browser to enforce.
+  if (!origin) {
+    callback(null, { credentials: true, origin: true });
+    return;
+  }
+
+  // A present Origin does NOT mean cross-origin. Browsers attach it to
+  // same-origin requests too whenever the method is not GET or HEAD — which is
+  // every GraphQL call. Treating it as proof of cross-origin is what made the
+  // deployed app reject itself with a 403.
+  const requestHost = (req.headers["x-forwarded-host"] ?? req.headers.host) as
+    | string
+    | undefined;
+
+  if (requestHost && hostOf(origin) === requestHost) {
+    callback(null, { credentials: true, origin: true });
+    return;
+  }
+
   const allowed = (process.env.CLIENT_URL ?? DEFAULT_CLIENT_URL)
     .split(",")
-    .map((origin) => origin.trim())
+    .map((entry) => entry.trim())
     .filter(Boolean);
 
-  return {
-    credentials: true,
-    origin(origin, callback) {
-      // A missing Origin header means same-origin, curl or a server-to-server
-      // call — none of which the browser applies CORS to.
-      if (!origin || allowed.includes(origin)) {
-        callback(null, true);
-        return;
-      }
+  if (allowed.includes(origin)) {
+    callback(null, { credentials: true, origin: true });
+    return;
+  }
 
-      logger.warn(`[CORS] blocked origin ${origin}`);
+  logger.warn(`[CORS] blocked origin ${origin}`);
 
-      // A rejected origin is a caller mistake, not a server fault — without an
-      // explicit status the global handler would report it as a 500.
-      const error: AppError = new Error("Origin is not allowed by CORS");
-      error.status = 403;
-      callback(error);
-    },
-  };
-}
+  // A rejected origin is a caller mistake, not a server fault — without an
+  // explicit status the global handler would report it as a 500.
+  const error: AppError = new Error("Origin is not allowed by CORS");
+  error.status = 403;
+  callback(error);
+};
 
 export function createApp(): Express {
   const isDev = process.env.NODE_ENV !== "production";
@@ -57,7 +90,7 @@ export function createApp(): Express {
 
   app.use(compression());
   app.use(helmet({ contentSecurityPolicy: isDev ? false : undefined }));
-  app.use(cors(buildCorsOptions()));
+  app.use(cors(corsDelegate));
   app.use(express.json({ limit: "100kb" }));
 
   app.get("/health", (_req, res) => {
