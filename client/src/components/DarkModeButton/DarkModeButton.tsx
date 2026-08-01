@@ -1,8 +1,8 @@
-import React from "react";
-import { DarkModeButtonProps } from "../../types/types";
 import { Moon, Sun } from "lucide-react";
-import { useDarkModeButton } from "./useDarkModeButton";
+import React from "react";
 
+import { DarkModeButtonProps } from "../../types/types";
+import { useDarkModeButton } from "./useDarkModeButton";
 
 const DarkModeButton: React.FC<DarkModeButtonProps> = ({
   onToggleTheme,
@@ -15,17 +15,19 @@ const DarkModeButton: React.FC<DarkModeButtonProps> = ({
     <button
       onClick={onToggleTheme}
       onKeyDown={handleKeyDown}
-      className={`flex items-center justify-center rounded h-8 w-8
-                hover:bg-zinc-400/50 dark:hover:bg-zinc-700/70 
-                transition-colors duration-200 ${className}`}
+      className={`focus-ring flex h-8 w-8 items-center justify-center rounded-lg
+                text-zinc-800 transition-colors duration-200 hover:bg-zinc-400/50
+                dark:text-zinc-200 dark:hover:bg-zinc-700/70 ${className}`}
       aria-label={`Switch to ${isDarkMode ? "light" : "dark"} mode`}
       aria-pressed={isDarkMode}
     >
       <span className="sr-only">{isDarkMode ? "Light" : "Dark"} Mode</span>
+      {/* `currentColor` keeps the icon on the button's own colour instead of the
+          two hard-coded hexes, which ignored hover and forced-colours modes. */}
       {isDarkMode ? (
-        <Sun color="#e4e4e7" className="w-5 h-5" />
+        <Sun className="h-5 w-5" aria-hidden="true" />
       ) : (
-        <Moon color="#27272a" className="w-5 h-5" />
+        <Moon className="h-5 w-5" aria-hidden="true" />
       )}
     </button>
   );

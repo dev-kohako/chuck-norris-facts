@@ -1,5 +1,9 @@
 import React from "react";
+
 import { useCategories } from "./useCategories";
+
+const titleCase = (value: string) =>
+  value.charAt(0).toUpperCase() + value.slice(1);
 
 const Categories: React.FC = () => {
   const {
@@ -17,15 +21,15 @@ const Categories: React.FC = () => {
   if (categoriesLoading) {
     return (
       <div
-        className="flex items-center justify-center mb-4"
+        className="flex items-center justify-center gap-2"
         role="status"
         aria-label="Loading categories"
       >
         <span
-          className="mr-1.5 h-5 w-5 animate-spin rounded-full border-2 border-l-zinc-700 dark:border-l-zinc-200 border-r-zinc-700 dark:border-r-zinc-200 border-b-zinc-700 dark:border-b-zinc-200 border-t-sky-500 dark:border-t-sky-500 xs:h-5 md:h-6 xs:w-5 md:w-6"
+          className="spinner-ring h-5 w-5 animate-spin md:h-6 md:w-6"
           aria-hidden="true"
         />
-        <span className="flex items-center justify-center gap-x-1 text-zinc-700 dark:text-zinc-200 text-lg md:text-xl">
+        <span className="text-lg text-zinc-600 dark:text-zinc-400 md:text-xl">
           Loading Categories...
         </span>
       </div>
@@ -36,7 +40,7 @@ const Categories: React.FC = () => {
     return (
       <p
         role="alert"
-        className="text-red-600 text-center mb-4 font-semibold text-lg md:text-xl"
+        className="text-danger text-center text-lg font-semibold md:text-xl"
         aria-live="assertive"
       >
         Error loading categories: {categoriesError.message}
@@ -46,73 +50,86 @@ const Categories: React.FC = () => {
 
   return (
     <section
-      className="flex flex-col items-center justify-center min-h-[80%] max-h-max rounded-lg"
+      className="flex flex-col items-center justify-center"
       aria-labelledby="categories-heading"
     >
       <h2
         id="categories-heading"
-        className="mb-5 font-semibold text-sky-500 uppercase tracking-wide xs:text-2xl sm:text-3xl md:text-4xl"
+        className="text-accent mb-6 font-semibold uppercase tracking-wide xs:text-2xl sm:text-3xl md:text-4xl"
       >
         Categories
       </h2>
 
       <ul
-        className="flex flex-wrap items-center justify-center gap-3"
+        className="flex flex-wrap items-center justify-center gap-2.5"
         aria-label="Chuck Norris fact categories"
       >
-        {categoriesData?.getChuckNorrisCategories.map((category: string) => (
-          <li key={category}>
-            <button
-              className={`px-2 py-1 text-lg text-zinc-700 transition duration-150 ease-in-out bg-gradient-to-tl from-zinc-300 to-zinc-200 rounded-full cursor-pointer hover:from-zinc-200/40 hover:to-zinc-100/40 hover:text-sky-500 shadow-button-neumorphism dark:from-zinc-800 dark:to-zinc-700 dark:hover:from-zinc-800/40 dark:hover:to-zinc-700/40 dark:text-zinc-200 dark:shadow-dark-button-neumorphism sm:text-xl md:px-4 md:text-2xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50
-              ${selectedCategory === category ? "ring-2 ring-sky-500" : ""}`}
-              onClick={() => handleCategoryClick(category)}
-              onKeyDown={(e) => handleKeyDown(e, category)}
-              aria-label={`Get fact about ${category}`}
-              aria-pressed={selectedCategory === category}
-            >
-              {category[0].toUpperCase() + category.substring(1)}
-            </button>
-          </li>
-        ))}
+        {categoriesData?.getChuckNorrisCategories.map((category: string) => {
+          const isSelected = selectedCategory === category;
+
+          return (
+            <li key={category}>
+              <button
+                // Selection reads as a pressed key rather than a ring bolted on
+                // top of a raised one — the two used to fight each other.
+                className={`focus-ring rounded-full px-3 py-1 text-lg transition-[color,box-shadow] duration-150 sm:text-xl md:px-4 md:text-2xl ${
+                  isSelected
+                    ? "surface-pressed text-accent font-semibold"
+                    : "surface-raised text-zinc-700 hover:text-sky-600 dark:text-zinc-200 dark:hover:text-sky-400"
+                }`}
+                onClick={() => handleCategoryClick(category)}
+                onKeyDown={(e) => handleKeyDown(e, category)}
+                aria-label={`Get fact about ${category}`}
+                aria-pressed={isSelected}
+              >
+                {titleCase(category)}
+              </button>
+            </li>
+          );
+        })}
       </ul>
 
       <article
-        className="flex flex-col items-center justify-center w-full mt-8"
+        className="mt-8 flex w-full flex-col items-center justify-center"
         aria-live="polite"
       >
         {factLoading ? (
           <div
-            className="flex items-center justify-center mb-4"
+            className="flex items-center justify-center gap-2"
             role="status"
             aria-label="Loading fact"
           >
             <span
-              className="mr-1.5 h-5 w-5 animate-spin rounded-full border-2 border-l-zinc-700 border-r-zinc-700 border-b-zinc-700 border-t-sky-500 xs:h-5 md:h-6 xs:w-5 md:w-6 dark:border-l-zinc-200 dark:border-r-zinc-200 dark:border-b-zinc-200"
+              className="spinner-ring h-5 w-5 animate-spin md:h-6 md:w-6"
               aria-hidden="true"
             />
-            <span className="flex items-center justify-center gap-x-1 text-lg text-zinc-700 dark:text-zinc-200 md:text-xl">
+            <span className="text-lg text-zinc-600 dark:text-zinc-400 md:text-xl">
               Loading {selectedCategory} fact...
             </span>
           </div>
         ) : factError ? (
           <p
             role="alert"
-            className="text-red-500 p-4 bg-gradient-to-tl from-zinc-300 to-zinc-200 rounded-lg shadow-button-neumorphism dark:from-zinc-800 dark:to-zinc-700 dark:shadow-dark-button-neumorphism"
+            className="surface-raised text-danger w-full rounded-xl p-4 text-center font-semibold"
             aria-live="assertive"
           >
             Error loading fact: {factError.message}
           </p>
         ) : (
-          <div className="w-full p-4 text-lg font-semibold text-center text-zinc-700 bg-gradient-to-tl from-zinc-300 to-zinc-200 rounded-lg shadow-button-neumorphism dark:from-zinc-800 dark:to-zinc-700 dark:text-zinc-200 dark:shadow-dark-button-neumorphism hover:from-zinc-200/40 hover:to-zinc-100/40 dark:hover:from-zinc-800/40 dark:hover:to-zinc-700/40 md:text-lg mb-4">
+          <div className="surface-raised w-full rounded-xl p-5 text-center">
             {factData?.getChuckNorrisFactByCategory ? (
-              <>
-                <h3 className="text-sky-500 mb-2">
+              <div className="animate-fade-in-up">
+                <h3 className="text-accent mb-2 font-semibold">
                   Fact about {selectedCategory}:
                 </h3>
-                <p>{factData.getChuckNorrisFactByCategory}</p>
-              </>
+                <p className="text-lg leading-relaxed text-zinc-800 dark:text-zinc-200">
+                  {factData.getChuckNorrisFactByCategory}
+                </p>
+              </div>
             ) : (
-              <p>Select a category to view a fact</p>
+              <p className="text-zinc-600 dark:text-zinc-400">
+                Select a category to view a fact
+              </p>
             )}
           </div>
         )}

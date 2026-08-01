@@ -1,7 +1,8 @@
 import React, { lazy, Suspense } from "react";
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
+
 import chuckDanceGif from "./assets/images/chuck-dancing.gif";
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
 import { useModal } from "./utils/useModal";
 
 const RandomFact = lazy(() => import("./pages/RandomFact/RandomFact"));
@@ -19,17 +20,27 @@ const App: React.FC = () => {
 
   return (
     <main
-      className="flex flex-col min-h-screen max-h-max justify-center items-center bg-gradient-to-br from-zinc-300 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 overflow-hidden font-Poppins py-20"
-      role="main"
+      className="font-Poppins flex min-h-screen flex-col items-center justify-center gap-5
+                bg-gradient-to-br from-zinc-300 to-zinc-200 px-4
+                pt-[calc(var(--header-height)+2rem)] pb-[calc(var(--footer-height)+2rem)]
+                dark:from-zinc-800 dark:to-zinc-700"
     >
       <Header />
 
+      {/* The page led with an h2 and no h1 above it, which axe flags and screen
+          readers read as a document with no title. The visible wordmark lives in
+          the header, so the heading itself is only exposed to assistive tech. */}
+      <h1 className="sr-only">Chuck Norris Facts</h1>
+
       <img
         src={chuckDanceGif}
-        className="w-20 sm:w-24 xs:landscape:mt-10 sm:landscape:mt-2 md:w-28 z-50"
+        className="w-20 sm:w-24 md:w-28"
         alt="Chuck Norris dancing animation"
         aria-hidden="true"
+        width={112}
+        height={112}
         loading="lazy"
+        decoding="async"
       />
 
       <Suspense fallback={<LoadingFallback />}>
@@ -56,33 +67,24 @@ const App: React.FC = () => {
 
 const LoadingFallback: React.FC = () => (
   <div
-    className="flex flex-col items-center justify-center space-y-4 mb-3 animate-pulse"
+    className="flex w-full max-w-[85%] flex-col items-center gap-4 md:max-w-[70%]"
     role="status"
     aria-label="Loading content"
   >
-    <div
-      className="w-64 h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"
-      aria-hidden="true"
-    ></div>
-    <div
-      className="w-64 h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"
-      aria-hidden="true"
-    ></div>
-    <div
-      className="w-64 h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"
-      aria-hidden="true"
-    ></div>
-    <div
-      className="w-64 h-12 bg-zinc-400 dark:bg-zinc-600 rounded-lg"
-      aria-hidden="true"
-    ></div>
+    {[0, 1, 2, 3].map((row) => (
+      <div
+        key={row}
+        className="h-12 w-full animate-pulse rounded-lg bg-zinc-400/70 dark:bg-zinc-600/70"
+        aria-hidden="true"
+      />
+    ))}
     <span className="sr-only">Loading content...</span>
   </div>
 );
 
 const LoadingBackdrop: React.FC = () => (
   <div
-    className="fixed inset-0 z-50 bg-gray-800 bg-opacity-80"
+    className="fixed inset-0 z-50 bg-zinc-900/80 backdrop-blur-sm"
     role="dialog"
     aria-modal="true"
     aria-busy="true"
