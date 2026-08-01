@@ -1,48 +1,55 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 
-import logo from "../../assets/images/KWK.png";
-import DarkModeButton from "../DarkModeButton/DarkModeButton";
+import logo from "@/assets/images/KWK.png";
+import DarkModeButton from "@/components/DarkModeButton/DarkModeButton";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
+
 import { useHeader } from "./useHeader";
 
-const Header: React.FC = () => {
+const Header = () => {
   const { isDarkMode, toggleTheme } = useHeader();
+  const { t } = useTranslation();
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 flex h-[var(--header-height)] items-center justify-between
-                border-b border-zinc-400/50 bg-zinc-300/90 px-4 backdrop-blur
-                dark:border-zinc-700 dark:bg-zinc-800/90"
+      className="bg-background/80 fixed inset-x-0 top-0 z-50 h-[var(--header-height)]
+                border-b backdrop-blur-md"
       aria-label="Site header"
     >
-      <a
-        href="/"
-        className="focus-ring flex items-center gap-2 rounded"
-        aria-label="Go to homepage"
-      >
-        <img
-          className="h-5 w-5 invert dark:invert-0"
-          src={logo}
-          alt="KWK Logo"
-          width={20}
-          height={20}
-          aria-hidden="true"
-        />
-        <span className="sr-only">KWK</span>
-      </a>
+      <div className="mx-auto flex h-full max-w-3xl items-center justify-between px-4">
+        <a
+          href="/"
+          className="focus-visible:ring-ring flex items-center gap-2 rounded-md
+                    outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          aria-label={t("header.homepage")}
+        >
+          {/* The mark is a white-on-transparent PNG. It used to be flipped with
+              `invert dark:invert-0`, which left it white-on-white in light mode —
+              invisible. Painting it as a mask in `currentColor` means it simply
+              follows the text beside it, in either theme. */}
+          <span
+            className="size-5 shrink-0 bg-current"
+            style={{
+              maskImage: `url(${logo})`,
+              WebkitMaskImage: `url(${logo})`,
+              maskSize: "contain",
+              WebkitMaskSize: "contain",
+              maskRepeat: "no-repeat",
+              WebkitMaskRepeat: "no-repeat",
+              maskPosition: "center",
+              WebkitMaskPosition: "center",
+            }}
+            aria-hidden="true"
+          />
+          <span className="font-display text-base leading-none">
+            {t("app.title")}
+          </span>
+        </a>
 
-      <div className="flex items-center gap-1">
-        <nav aria-label="Primary navigation">
-          <a
-            href="/"
-            className="focus-ring hidden rounded px-2 py-1 text-sm font-medium text-zinc-900
-                      transition-colors duration-200 hover:text-sky-600
-                      xs:block dark:text-zinc-200 dark:hover:text-sky-400"
-            aria-current="page"
-          >
-            Chuck Norris Facts
-          </a>
+        <nav className="flex items-center gap-1" aria-label={t("header.nav")}>
+          <LanguageSwitcher />
+          <DarkModeButton onToggleTheme={toggleTheme} isDarkMode={isDarkMode} />
         </nav>
-        <DarkModeButton onToggleTheme={toggleTheme} isDarkMode={isDarkMode} />
       </div>
     </header>
   );

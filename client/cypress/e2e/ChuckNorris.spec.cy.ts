@@ -10,7 +10,12 @@ describe("Chuck Norris Facts - E2E Tests", () => {
   });
 
   beforeEach(() => {
-    cy.visit("/");
+    // The assertions below are written against the English copy. i18next
+    // otherwise picks the language up from the browser, so on a pt-BR machine
+    // the whole suite would fail on translated strings.
+    cy.visit("/", {
+      onBeforeLoad: (win) => win.localStorage.setItem("i18nextLng", "en"),
+    });
     cy.get("main", { timeout: DEFAULT_TIMEOUT }).should("be.visible");
     cy.injectAxe();
   });
@@ -75,10 +80,12 @@ describe("Chuck Norris Facts - E2E Tests", () => {
 
   context("4. Alternância de Tema", () => {
     beforeEach(() => {
-      cy.window().then((win) => {
-        win.localStorage.setItem("theme", "light");
+      cy.visit("/", {
+        onBeforeLoad: (win) => {
+          win.localStorage.setItem("theme", "light");
+          win.localStorage.setItem("i18nextLng", "en");
+        },
       });
-      cy.visit("/");
       cy.get("main").should("be.visible");
     });
 

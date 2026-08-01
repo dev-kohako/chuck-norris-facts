@@ -37,11 +37,12 @@ therefore needs no API URL configured, and the browser never issues a CORS
 preflight.
 
 ### Frontend (Client)
-- **React 18** with TypeScript for type safety
+- **React 19** with TypeScript for type safety
 - **React Compiler** for automatic memoization — no hand-written `useCallback`/`useMemo`
 - **Vite** for the dev server and production build
 - **Apollo Client** for GraphQL state management
-- **Tailwind CSS** for responsive styling
+- **shadcn/ui** on Radix primitives, styled with **Tailwind CSS v4**
+- **i18next** for English and Portuguese
 - **Lucide React** for beautiful icons
 
 ### Backend (Server)
@@ -58,12 +59,14 @@ preflight.
 ### Frontend Dependencies
 | Package | Version | Purpose |
 |---------|---------|---------|
-| React | ^18.3.1 | UI Library |
-| Apollo Client | ^3.10.5 | GraphQL Client |
+| React | ^19.2.8 | UI Library |
+| Apollo Client | ^3.14.1 | GraphQL Client |
 | Vite | ^8.2.0 | Build Tool |
 | babel-plugin-react-compiler | ^1.0.0 | Automatic Memoization |
+| shadcn/ui (radix-nova) | — | Component Layer |
+| Tailwind CSS | ^4.3.3 | Styling Framework |
+| i18next / react-i18next | ^26 / ^17 | Internationalisation |
 | TypeScript | ^5.9.3 | Type Safety |
-| Tailwind CSS | ^3.4.4 | Styling Framework |
 | Lucide React | ^0.539.0 | Icon Library |
 | Vitest | ^4.1.10 | Unit Tests |
 
@@ -161,26 +164,36 @@ somewhere else.
 chuck-norris-facts/
 ├── client/                          # Frontend React application
 │   ├── index.html                   # Vite entry document
+│   ├── components.json              # shadcn/ui config
 │   ├── public/
 │   │   ├── chuck-logo.png
 │   │   └── manifest.json
 │   ├── src/
 │   │   ├── components/
+│   │   │   ├── ui/                  # shadcn/ui primitives
 │   │   │   ├── DarkModeButton/
 │   │   │       ├── DarkModeButton.tsx
-│   │   │       └── useDarkModeButton.tsx
+│   │   │       └── useDarkModeButton.ts
 │   │   │   ├── Footer/
 │   │   │       ├── Footer.tsx
 │   │   │       └── useFooter.ts
 │   │   │   ├── Header/
 │   │   │       ├── Header.tsx
 │   │   │       └── useHeader.ts
-│   │   │   ├── Modal/
-│   │   │       ├── Modal.tsx
-│   │   │       └── useModal.ts
+│   │   │   ├── LanguageSwitcher/
+│   │   │       └── LanguageSwitcher.tsx
+│   │   │   ├── Spinner/
+│   │   │       └── Spinner.tsx
 │   │   │   └── SearchByCategorySection/
 │   │   │       ├── SearchByCategorySection.tsx
 │   │   │       └── useSearchByCategorySection.ts
+│   │   ├── i18n/
+│   │   │   ├── index.ts
+│   │   │   └── locales/
+│   │   │       ├── en.json
+│   │   │       └── pt.json
+│   │   ├── lib/
+│   │   │   └── utils.ts             # cn()
 │   │   ├── assets/
 │   │   │   └── images/
 │   │   ├── pages/
@@ -201,11 +214,10 @@ chuck-norris-facts/
 │   │   ├── types/
 │   │   │   └── types.ts
 │   │   ├── utils/
-│   │   │   ├── apolloClient.ts
-│   │   │   ├── useModal.ts
+│   │   │   └── apolloClient.ts
 │   │   ├── App.test.tsx
 │   │   ├── App.tsx
-│   │   ├── index.css                # Tailwind layers + the shared surface classes
+│   │   ├── index.css                # Tailwind v4 theme + shadcn/ui tokens
 │   │   ├── index.tsx
 │   │   ├── setupTests.ts
 │   │   └── vite-env.d.ts
@@ -214,10 +226,11 @@ chuck-norris-facts/
 │   ├── Dockerfile
 │   ├── nginx.conf
 │   ├── eslint.config.js
-│   ├── postcss.config.js
-│   ├── tailwind.config.js
 │   └── vite.config.ts
 ```
+
+> Tailwind v4 is configured in CSS (`src/index.css`, via `@theme`), so there is
+> no `tailwind.config.js` or `postcss.config.js`.
 # Backend GraphQL API
 ```
 ├── server/                          
@@ -234,6 +247,7 @@ chuck-norris-facts/
 │   │   ├── utils/
 │   │   │   ├── apiClient.ts
 │   │   │   ├── logger.ts
+│   │   │   ├── ttlCache.ts          # In-process cache for the category list
 │   │   │   ├── types.ts
 │   │   ├── app.ts                   # Builds the express app
 │   │   └── index.ts                 # Local and Docker entrypoint — listens
@@ -298,6 +312,17 @@ type Query {
 Served at `POST /api/graphql` (and `/graphql`, which is what the local dev
 server and the Docker image talk to). `GET /health` reports liveness.
 
+### Caching
+
+The category list is a fixed vocabulary that has not changed in years, so it is
+cached at both ends: for an hour in the server process (`src/utils/ttlCache.ts`,
+which also shares the in-flight promise so a cold cache does not fan out into N
+upstream calls) and in the Apollo cache on the client. Text searches are
+deterministic for a given term, so they are `cache-first` too.
+
+The facts themselves are never cached — returning a random one is the whole
+point.
+
 ---
 
 ## 🧪 Testing
@@ -349,12 +374,41 @@ server's healthcheck.
 
 ## 🎨 Design System
 
-- **Primary Colors**: Tailwind's `zinc` for surfaces, `sky` for the accent — `sky-600` in light, `sky-400` in dark, so both clear 4.5:1
-- **Surfaces**: neumorphic, raised in both themes, via the `surface`, `surface-raised` and `surface-pressed` classes in `index.css`
-- **Dark Mode**: Persistent theme switching, class-based
-- **Typography**: Poppins for body copy, Pixelify Sans for display
-- **Focus**: `focus-visible` only, so the ring is for keyboard users
-- **Animations**: Smooth transitions and hover effects, suppressed under `prefers-reduced-motion`
+The palette is sampled from the mascot. `chuck-dancing.gif` is a ten-colour
+sprite, and three of them carry the whole system:
+
+| Sprite | Share | oklch | Role |
+|--------|-------|-------|------|
+| `#272c35` hat and outline | 46.5% | `oklch(0.292 0.018 262)` | the neutral ramp |
+| `#7da7d9` denim | 2.4% | `oklch(0.717 0.087 253)` | `--primary` |
+| `#ffcc00` belt star | 0.8% | `oklch(0.865 0.177 90)` | `--ring` |
+
+- **Neutrals are not grey**: every one sits on hue 262 at low chroma — the hat, desaturated.
+- **Two signals, never confused**: denim carries actions, gold carries focus.
+- **Both invert between themes**, because one value cannot serve both: `#7da7d9` is too light to hold white text, so light mode darkens it and dark mode keeps it bright over dark text. The gold ring does the same in reverse. Both clear 4.5:1.
+- **Tokens**: shadcn/ui variables in `src/index.css`; components live in `src/components/ui`.
+- **Typography**: Geist for the interface, Pixelify Sans reserved for the wordmark and hero title — the pixel face answering the pixel mascot. Both self-hosted through `@fontsource`, so the page makes no third-party font request.
+- **Dark Mode**: class-based and persisted, applied by an inline script before first paint so the page never flashes the wrong theme.
+- **Focus**: `focus-visible` only, so the ring is for keyboard users.
+- **Animations**: suppressed under `prefers-reduced-motion`.
+
+Verified with axe across light × dark and English × Portuguese, plus the dialog
+open in both themes: no violations.
+
+---
+
+## 🌍 Internationalisation
+
+English and Portuguese, through `i18next` with browser detection and a
+`localStorage` cache. Both dictionaries are bundled rather than fetched —
+together they are under 4 kB, and a lazy backend would trade that for a
+render-blocking round trip and a flash of untranslated keys.
+
+- Copy lives in `src/i18n/locales/{en,pt}.json`.
+- `pt-BR` and `pt-PT` both resolve to `pt`; there is one Portuguese here.
+- `<html lang>` is kept in step with the active language — screen readers and hyphenation key off it, and axe fails a document without it.
+- A test asserts the two dictionaries have exactly the same key set: a missing key falls back silently to English, so the gap only ever shows up as untranslated copy in front of a user.
+- The e2e suite pins `i18nextLng` to `en`, since its assertions are written against the English copy.
 
 ---
 

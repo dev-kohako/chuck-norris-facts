@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 
 import { apiClient } from "../../utils/apiClient";
 import { logger } from "../../utils/logger";
+import { withTtlCache } from "../../utils/ttlCache";
 import { FetchOptions } from "../../utils/types";
 
 export async function fetchWithRetry<T>(
@@ -86,6 +87,21 @@ function handleApiError(error: unknown, defaultMessage: string): never {
   throw new Error(defaultMessage);
 }
 
+/**
+ * The category list is a fixed vocabulary — it has not changed in years. Every
+ * page load was paying an upstream round trip for it, so it is cached for an
+ * hour. The facts themselves are not cached: returning a random one is the
+ * whole point.
+ */
+const CATEGORIES_TTL_MS = 60 * 60 * 1000;
+
+const loadCategories = withTtlCache("categories", CATEGORIES_TTL_MS, () =>
+  fetchWithRetry<string[]>(
+    "/categories",
+    "Failed to fetch Chuck Norris categories"
+  )
+);
+
 export const root = {
   getChuckNorrisFact: async (options?: FetchOptions): Promise<string> => {
     const data = await fetchWithRetry<{ value: string }>(
@@ -96,15 +112,7 @@ export const root = {
     return data.value;
   },
 
-  getChuckNorrisCategories: async (
-    options?: FetchOptions
-  ): Promise<string[]> => {
-    return fetchWithRetry<string[]>(
-      "/categories",
-      "Failed to fetch Chuck Norris categories",
-      options
-    );
-  },
+  getChuckNorrisCategories: async (): Promise<string[]> => loadCategories(),
 
   getChuckNorrisFactByCategory: async (
     { category }: { category: string },

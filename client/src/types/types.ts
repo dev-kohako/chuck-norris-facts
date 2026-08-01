@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export type ThemePreference = "light" | "dark";
 
 export interface CategoriesData {
@@ -12,17 +10,6 @@ export interface FactDataCategory {
 
 export interface FactDataSearch {
   searchFacts: string;
-}
-
-export interface SearchByCategorySectionProps {
-  onOpenModal: () => void;
-}
-
-export interface ModalProps {
-  onClose: () => void;
-  children: ReactNode;
-  /** Accessible name for the dialog. */
-  ariaLabel?: string;
 }
 
 export interface DarkModeButtonProps {

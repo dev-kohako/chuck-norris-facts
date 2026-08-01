@@ -16,7 +16,9 @@ export const useFactByFreeText = () => {
   const [searchFacts, { loading, data, error }] = useLazyQuery<FactDataSearch>(
     GET_CHUCK_NORRIS_FACT_BY_TEXT,
     {
-      fetchPolicy: "network-only",
+      // Unlike the random endpoints, a text search is deterministic for a given
+      // term — repeating one is served from the cache instead of the network.
+      fetchPolicy: "cache-first",
       onCompleted: () => setHasSubmitted(true),
     }
   );

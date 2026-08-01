@@ -1,15 +1,25 @@
 import babel from "@rolldown/plugin-babel";
+import tailwindcss from "@tailwindcss/vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
+
+const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [
     react(),
-    // React 18 has no bundled compiler runtime, so `target: "18"` makes the
-    // compiler emit against `react-compiler-runtime` instead of
-    // `react/compiler-runtime`.
-    babel({ presets: [reactCompilerPreset({ target: "18" })] }),
+    // React 19 ships `react/compiler-runtime`, so the preset needs no `target`
+    // and the `react-compiler-runtime` shim is gone.
+    babel({ presets: [reactCompilerPreset()] }),
+    tailwindcss(),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(rootDir, "./src"),
+    },
+  },
   server: {
     // Kept on CRA's port so the Cypress baseUrl and the docker-compose mapping
     // carry over unchanged.
@@ -36,6 +46,9 @@ export default defineConfig({
         manualChunks(id) {
           if (/node_modules[/\\](@apollo|graphql)[/\\]/.test(id)) {
             return "apollo";
+          }
+          if (/node_modules[/\\](i18next|react-i18next)/.test(id)) {
+            return "i18n";
           }
         },
       },

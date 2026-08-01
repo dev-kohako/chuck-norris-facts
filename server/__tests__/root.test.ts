@@ -27,6 +27,35 @@ describe('Chuck Norris GraphQL Resolvers', () => {
     expect(categories).toEqual(categoriesMock);
   });
 
+  it('should serve categories from cache on subsequent calls', async () => {
+    // The first call above already filled the cache, so a second one must not
+    // reach the upstream at all — even with the mock returning something else.
+    mock.onGet(`${BASE_URL}/categories`).reply(200, ['ignored']);
+
+    const categories = await root.getChuckNorrisCategories();
+
+    expect(categories).toEqual(['dev', 'movie']);
+    expect(mock.history.get).toHaveLength(0);
+  });
+
+  it('should share one upstream call across concurrent category requests', async () => {
+    jest.resetModules();
+    const { root: freshRoot } = await import('../src/graphql/resolvers');
+    const { apiClient: freshClient } = await import('../src/utils/apiClient');
+    const freshMock = new MockAdapter(freshClient);
+    freshMock.onGet(`${BASE_URL}/categories`).reply(200, ['dev']);
+
+    const results = await Promise.all([
+      freshRoot.getChuckNorrisCategories(),
+      freshRoot.getChuckNorrisCategories(),
+      freshRoot.getChuckNorrisCategories(),
+    ]);
+
+    expect(results).toEqual([['dev'], ['dev'], ['dev']]);
+    expect(freshMock.history.get).toHaveLength(1);
+    freshMock.restore();
+  });
+
   it('should fetch a fact by category', async () => {
     const category = 'dev';
     const factValue = 'Chuck Norris writes code that optimizes itself.';

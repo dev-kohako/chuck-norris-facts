@@ -1,18 +1,14 @@
-import React, { ReactNode } from "react";
+import { Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+import { Spinner } from "@/components/Spinner/Spinner";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 import { useFactByFreeText } from "./useFactByFreeText";
 
-/** The four result states below were four copies of the same panel markup. */
-const Panel = ({
-  children,
-  ...props
-}: { children: ReactNode } & React.HTMLAttributes<HTMLDivElement>) => (
-  <div className="surface-raised rounded-xl p-4" {...props}>
-    {children}
-  </div>
-);
-
-const FactByFreeText: React.FC = () => {
+const FactByFreeText = () => {
   const {
     sectionId,
     inputId,
@@ -26,121 +22,125 @@ const FactByFreeText: React.FC = () => {
     errorId,
     data,
   } = useFactByFreeText();
+  const { t } = useTranslation();
 
   return (
-    <section
-      className="content-width"
-      aria-live="polite"
-      aria-busy={loading}
-      aria-labelledby={sectionId}
-    >
-      <h2
-        id={sectionId}
-        className="text-center text-sm font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400 md:text-base"
-      >
-        Get Facts by Free Text
-      </h2>
-
-      <form
-        onSubmit={handleSubmit}
-        className="mt-2 flex"
-        noValidate
-        role="search"
-        aria-label="Search Chuck Norris facts"
-      >
-        <label htmlFor={inputId} className="sr-only">
-          Search for Chuck Norris facts
-        </label>
-        <input
-          id={inputId}
-          type="text"
-          value={freeText}
-          onChange={handleInputChange}
-          placeholder="Enter your search term"
-          name="freeText"
-          className="w-full rounded-s-lg bg-zinc-50 py-1.5 pl-3 pr-3 text-lg outline-none
-                    transition-colors duration-200 placeholder:text-zinc-400
-                    focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-500
-                    disabled:opacity-60 sm:pl-4 md:py-2 md:text-xl
-                    dark:bg-zinc-600 dark:text-zinc-100 dark:placeholder:text-zinc-400"
-          aria-required="true"
-          aria-invalid={inputError ? "true" : "false"}
-          aria-describedby={inputError ? errorId : undefined}
-          disabled={loading}
-          autoComplete="off"
-          maxLength={100}
-        />
-        <button
-          type="submit"
-          className="btn-neumorphic text-nowrap rounded-s-none rounded-e-lg px-3 py-1 text-lg
-                    font-semibold disabled:cursor-not-allowed disabled:opacity-50 md:text-xl"
-          disabled={loading || !freeText.trim()}
-          aria-label={loading ? "Searching for facts..." : "Search for facts"}
-        >
-          {loading ? (
-            <>
-              <span className="sr-only">Searching</span>
-              <span aria-hidden="true">Searching...</span>
-            </>
-          ) : (
-            "Get Fact"
-          )}
-        </button>
-      </form>
-
-      <div className="mt-4 w-full space-y-4 text-center md:mt-6">
-        {loading && (
-          <Panel role="status" aria-label="Loading fact">
-            <span className="flex items-center justify-center gap-2">
-              <span
-                className="spinner-ring h-5 w-5 animate-spin md:h-6 md:w-6"
-                aria-hidden="true"
-              />
-              <span className="text-lg text-zinc-600 dark:text-zinc-400 md:text-xl">
-                Loading Fact...
-              </span>
-            </span>
-          </Panel>
-        )}
-
-        {error && (
-          <Panel role="alert" aria-live="assertive">
-            <p className="text-danger text-sm font-semibold sm:text-base md:text-lg">
-              <span className="sr-only">Error:</span> {error.message}
-            </p>
-          </Panel>
-        )}
-
-        {inputError && (
-          <Panel id={errorId} role="alert" aria-live="assertive">
-            <p className="text-danger text-sm font-semibold sm:text-base md:text-lg">
-              Please enter a search query.
-            </p>
-          </Panel>
-        )}
-
-        {!loading && hasSubmitted && !data?.searchFacts && !error && (
-          <Panel role="status" aria-live="polite">
-            <p className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 sm:text-base md:text-lg">
-              No facts found for your search. Try a different term.
-            </p>
-          </Panel>
-        )}
-
-        {data?.searchFacts && (
-          <article
-            className="surface-raised animate-fade-in-up rounded-xl p-5 sm:p-6"
-            aria-live="polite"
+    <section aria-live="polite" aria-busy={loading} aria-labelledby={sectionId}>
+      <Card>
+        <CardHeader>
+          <h2
+            id={sectionId}
+            className="font-heading text-base font-semibold tracking-tight"
           >
-            <h3 className="text-accent text-xl font-semibold md:text-3xl">
-              Search Result:
-            </h3>
-            <p className="mt-2 text-center text-lg leading-relaxed text-zinc-800 dark:text-zinc-200 md:text-xl">
-              {data.searchFacts}
+            {t("search.sectionTitle")}
+          </h2>
+        </CardHeader>
+
+        <CardContent className="space-y-3">
+          <form
+            onSubmit={handleSubmit}
+            className="flex gap-2"
+            noValidate
+            role="search"
+            aria-label={t("search.formAria")}
+          >
+            <label htmlFor={inputId} className="sr-only">
+              {t("search.label")}
+            </label>
+            <Input
+              id={inputId}
+              type="text"
+              value={freeText}
+              onChange={handleInputChange}
+              placeholder={t("search.placeholder")}
+              name="freeText"
+              aria-required="true"
+              aria-invalid={inputError ? "true" : "false"}
+              aria-describedby={inputError ? errorId : undefined}
+              disabled={loading}
+              autoComplete="off"
+              maxLength={100}
+            />
+            <Button
+              type="submit"
+              size="lg"
+              disabled={loading || !freeText.trim()}
+              aria-label={
+                loading ? t("search.submittingAria") : t("search.submitAria")
+              }
+            >
+              {loading ? (
+                <>
+                  <span className="sr-only">{t("search.srSearching")}</span>
+                  <span aria-hidden="true">{t("search.submitting")}</span>
+                </>
+              ) : (
+                <>
+                  <Search aria-hidden="true" />
+                  {t("search.submit")}
+                </>
+              )}
+            </Button>
+          </form>
+
+          {loading && (
+            <div
+              className="text-muted-foreground flex items-center justify-center gap-2 py-3 text-sm"
+              role="status"
+              aria-label={t("randomFact.loadingAria")}
+            >
+              <Spinner />
+              {t("search.loading")}
+            </div>
+          )}
+
+          {error && (
+            <p
+              role="alert"
+              aria-live="assertive"
+              className="text-destructive text-sm font-medium"
+            >
+              <span className="sr-only">{t("common.errorPrefix")}</span>{" "}
+              {error.message}
             </p>
-          </article>
-        )}
-      </div>
+          )}
+
+          {inputError && (
+            <p
+              id={errorId}
+              role="alert"
+              aria-live="assertive"
+              className="text-destructive text-sm font-medium"
+            >
+              {t("search.required")}
+            </p>
+          )}
+
+          {!loading && hasSubmitted && !data?.searchFacts && !error && (
+            <p
+              role="status"
+              aria-live="polite"
+              className="text-muted-foreground text-sm"
+            >
+              {t("search.empty")}
+            </p>
+          )}
+
+          {!loading && data?.searchFacts && (
+            <article
+              className="bg-muted/50 animate-in fade-in slide-in-from-bottom-1 rounded-lg p-4 duration-300"
+              aria-live="polite"
+            >
+              <h3 className="text-primary text-sm font-semibold">
+                {t("search.resultTitle")}
+              </h3>
+              <p className="mt-2 text-balance leading-relaxed">
+                {data.searchFacts}
+              </p>
+            </article>
+          )}
+        </CardContent>
+      </Card>
     </section>
   );
 };

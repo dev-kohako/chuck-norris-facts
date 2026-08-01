@@ -145,3 +145,6 @@ client/cypress/downloads/
 
 # Claude Code local config
 .claude/
+
+# Vercel CLI link metadata and the OIDC token it pulls
+.vercel

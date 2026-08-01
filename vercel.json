@@ -14,7 +14,21 @@
   "routes": [
     { "src": "/api/graphql", "dest": "/server/api/index.ts" },
     { "src": "/health", "dest": "/server/api/index.ts" },
+
+    {
+      "src": "/assets/(.*)",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
+      "dest": "/client/assets/$1"
+    },
+
+    { "src": "/(.+\\.[a-zA-Z0-9]+)$", "dest": "/client/$1" },
+
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+
+    {
+      "src": "/(.*)",
+      "headers": { "Cache-Control": "public, max-age=0, must-revalidate" },
+      "dest": "/client/index.html"
+    }
   ]
 }

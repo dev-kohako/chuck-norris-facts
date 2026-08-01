@@ -1,0 +1,69 @@
+{
+  "app": {
+    "title": "Chuck Norris Facts",
+    "tagline": "Direto da API, com um chute giratório."
+  },
+  "header": {
+    "homepage": "Ir para a página inicial",
+    "nav": "Navegação principal",
+    "language": "Idioma",
+    "changeLanguage": "Mudar idioma"
+  },
+  "theme": {
+    "switchTo": "Mudar para o modo {{mode}}",
+    "light": "claro",
+    "dark": "escuro",
+    "lightLabel": "Modo Claro",
+    "darkLabel": "Modo Escuro"
+  },
+  "randomFact": {
+    "title": "Fato Aleatório do Chuck Norris",
+    "loading": "Carregando um novo fato...",
+    "button": "Gerar novo fato",
+    "buttonAria": "Gerar um novo fato aleatório do Chuck Norris",
+    "loadingAria": "Carregando fato"
+  },
+  "categories": {
+    "sectionTitle": "Buscar fatos por categoria",
+    "open": "Ver categorias",
+    "openAria": "Abrir o modal de categorias",
+    "dialogLabel": "Categorias de fatos do Chuck Norris",
+    "title": "Categorias",
+    "listAria": "Categorias de fatos do Chuck Norris",
+    "loading": "Carregando categorias...",
+    "loadingAria": "Carregando categorias",
+    "loadError": "Erro ao carregar as categorias: {{message}}",
+    "factLoading": "Carregando fato de {{category}}...",
+    "factAbout": "Fato sobre {{category}}:",
+    "factError": "Erro ao carregar o fato: {{message}}",
+    "empty": "Escolha uma categoria para ver um fato",
+    "getFactAria": "Ver fato sobre {{category}}"
+  },
+  "search": {
+    "sectionTitle": "Buscar fatos por texto",
+    "formAria": "Buscar fatos do Chuck Norris",
+    "label": "Buscar fatos do Chuck Norris",
+    "placeholder": "Digite o que você procura",
+    "submit": "Buscar",
+    "submitting": "Buscando...",
+    "submitAria": "Buscar fatos",
+    "submittingAria": "Buscando fatos...",
+    "srSearching": "Buscando",
+    "loading": "Carregando fato...",
+    "resultTitle": "Resultado da busca:",
+    "empty": "Nenhum fato encontrado para a sua busca. Tente outro termo.",
+    "required": "Digite algo para buscar."
+  },
+  "footer": {
+    "rights": "© {{year}} Chuck Norris Facts - Todos os direitos reservados por",
+    "kwkAria": "Visitar o site da KWK",
+    "credit": "Fatos do Chuck Norris fornecidos pela API Chuck Norris IO",
+    "label": "Rodapé do site"
+  },
+  "common": {
+    "errorPrefix": "Erro:",
+    "loadingContent": "Carregando conteúdo",
+    "mascotAlt": "Animação do Chuck Norris dançando",
+    "closeModal": "Fechar o modal"
+  }
+}
