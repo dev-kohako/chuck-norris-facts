@@ -1,21 +1,32 @@
-version: "3.9"
-
 services:
   server:
     build: ./server
     container_name: chuck-server
+    restart: unless-stopped
     ports:
       - "4000:4000"
-    volumes:
-      - ./server:/app
-      - /app/node_modules
     environment:
       - NODE_ENV=production
+      - PORT=4000
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://localhost:4000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   client:
     build: ./client
     container_name: chuck-client
+    restart: unless-stopped
     ports:
       - "3000:80"
     depends_on:
-      - server
+      server:
+        condition: service_healthy
