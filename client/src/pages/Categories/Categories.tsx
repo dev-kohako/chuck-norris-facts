@@ -1,11 +1,20 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
+
+import { Spinner } from "@/components/Spinner/Spinner";
+import { Button } from "@/components/ui/button";
+import {
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { useCategories } from "./useCategories";
 
 const titleCase = (value: string) =>
   value.charAt(0).toUpperCase() + value.slice(1);
 
-const Categories: React.FC = () => {
+const Categories = () => {
   const {
     categoriesLoading,
     categoriesError,
@@ -17,123 +26,98 @@ const Categories: React.FC = () => {
     factError,
     factData,
   } = useCategories();
+  const { t } = useTranslation();
 
-  if (categoriesLoading) {
-    return (
-      <div
-        className="flex items-center justify-center gap-2"
-        role="status"
-        aria-label="Loading categories"
-      >
-        <span
-          className="spinner-ring h-5 w-5 animate-spin md:h-6 md:w-6"
-          aria-hidden="true"
-        />
-        <span className="text-lg text-zinc-600 dark:text-zinc-400 md:text-xl">
-          Loading Categories...
-        </span>
-      </div>
-    );
-  }
-
-  if (categoriesError) {
-    return (
-      <p
-        role="alert"
-        className="text-danger text-center text-lg font-semibold md:text-xl"
-        aria-live="assertive"
-      >
-        Error loading categories: {categoriesError.message}
-      </p>
-    );
-  }
-
+  // The section carries no `aria-labelledby` and the title no `id`: Radix
+  // generates its own id for the dialog's accessible name, and overriding it
+  // leaves the dialog pointing at an element that no longer carries that id.
   return (
-    <section
-      className="flex flex-col items-center justify-center"
-      aria-labelledby="categories-heading"
-    >
-      <h2
-        id="categories-heading"
-        className="text-accent mb-6 font-semibold uppercase tracking-wide xs:text-2xl sm:text-3xl md:text-4xl"
-      >
-        Categories
-      </h2>
+    <section>
+      <DialogHeader>
+        <DialogTitle className="font-heading text-xl font-semibold tracking-tight">
+          {t("categories.title")}
+        </DialogTitle>
+        <DialogDescription>{t("categories.sectionTitle")}</DialogDescription>
+      </DialogHeader>
 
-      <ul
-        className="flex flex-wrap items-center justify-center gap-2.5"
-        aria-label="Chuck Norris fact categories"
-      >
-        {categoriesData?.getChuckNorrisCategories.map((category: string) => {
-          const isSelected = selectedCategory === category;
+      {categoriesLoading ? (
+        <div
+          className="mt-6 flex flex-wrap gap-2"
+          role="status"
+          aria-label={t("categories.loadingAria")}
+        >
+          {Array.from({ length: 12 }, (_, index) => (
+            <Skeleton key={index} className="h-8 w-20 rounded-lg" />
+          ))}
+          <span className="sr-only">{t("categories.loading")}</span>
+        </div>
+      ) : categoriesError ? (
+        <p
+          role="alert"
+          aria-live="assertive"
+          className="text-destructive mt-6 text-sm font-medium"
+        >
+          {t("categories.loadError", { message: categoriesError.message })}
+        </p>
+      ) : (
+        <ul
+          className="mt-6 flex flex-wrap justify-center gap-2"
+          aria-label={t("categories.listAria")}
+        >
+          {categoriesData?.getChuckNorrisCategories.map((category: string) => {
+            const isSelected = selectedCategory === category;
 
-          return (
-            <li key={category}>
-              <button
-                // Selection reads as a pressed key rather than a ring bolted on
-                // top of a raised one — the two used to fight each other.
-                className={`focus-ring rounded-full px-3 py-1 text-lg transition-[color,box-shadow] duration-150 sm:text-xl md:px-4 md:text-2xl ${
-                  isSelected
-                    ? "surface-pressed text-accent font-semibold"
-                    : "surface-raised text-zinc-700 hover:text-sky-600 dark:text-zinc-200 dark:hover:text-sky-400"
-                }`}
-                onClick={() => handleCategoryClick(category)}
-                onKeyDown={(e) => handleKeyDown(e, category)}
-                aria-label={`Get fact about ${category}`}
-                aria-pressed={isSelected}
-              >
-                {titleCase(category)}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+            return (
+              <li key={category}>
+                <Button
+                  variant={isSelected ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handleCategoryClick(category)}
+                  onKeyDown={(e) => handleKeyDown(e, category)}
+                  aria-label={t("categories.getFactAria", { category })}
+                  aria-pressed={isSelected}
+                >
+                  {titleCase(category)}
+                </Button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
 
-      <article
-        className="mt-8 flex w-full flex-col items-center justify-center"
-        aria-live="polite"
-      >
+      <div className="bg-muted/50 mt-6 min-h-24 rounded-lg p-4" aria-live="polite">
         {factLoading ? (
           <div
-            className="flex items-center justify-center gap-2"
+            className="text-muted-foreground flex items-center justify-center gap-2 py-4 text-sm"
             role="status"
-            aria-label="Loading fact"
+            aria-label={t("randomFact.loadingAria")}
           >
-            <span
-              className="spinner-ring h-5 w-5 animate-spin md:h-6 md:w-6"
-              aria-hidden="true"
-            />
-            <span className="text-lg text-zinc-600 dark:text-zinc-400 md:text-xl">
-              Loading {selectedCategory} fact...
-            </span>
+            <Spinner />
+            {t("categories.factLoading", { category: selectedCategory })}
           </div>
         ) : factError ? (
           <p
             role="alert"
-            className="surface-raised text-danger w-full rounded-xl p-4 text-center font-semibold"
             aria-live="assertive"
+            className="text-destructive text-center text-sm font-medium"
           >
-            Error loading fact: {factError.message}
+            {t("categories.factError", { message: factError.message })}
           </p>
-        ) : (
-          <div className="surface-raised w-full rounded-xl p-5 text-center">
-            {factData?.getChuckNorrisFactByCategory ? (
-              <div className="animate-fade-in-up">
-                <h3 className="text-accent mb-2 font-semibold">
-                  Fact about {selectedCategory}:
-                </h3>
-                <p className="text-lg leading-relaxed text-zinc-800 dark:text-zinc-200">
-                  {factData.getChuckNorrisFactByCategory}
-                </p>
-              </div>
-            ) : (
-              <p className="text-zinc-600 dark:text-zinc-400">
-                Select a category to view a fact
-              </p>
-            )}
+        ) : factData?.getChuckNorrisFactByCategory ? (
+          <div className="animate-in fade-in slide-in-from-bottom-1 text-center duration-300">
+            <h3 className="text-primary text-sm font-semibold">
+              {t("categories.factAbout", { category: selectedCategory })}
+            </h3>
+            <p className="mt-2 text-balance leading-relaxed">
+              {factData.getChuckNorrisFactByCategory}
+            </p>
           </div>
+        ) : (
+          <p className="text-muted-foreground py-4 text-center text-sm">
+            {t("categories.empty")}
+          </p>
         )}
-      </article>
+      </div>
     </section>
   );
 };

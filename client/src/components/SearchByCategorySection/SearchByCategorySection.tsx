@@ -1,35 +1,80 @@
-import React from "react";
+import { LayoutGrid } from "lucide-react";
+import { lazy, Suspense, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import { SearchByCategorySectionProps } from "../../types/types";
-import { useSearchByCategorySection } from "./useSearchByCategorySection";
+import { Spinner } from "@/components/Spinner/Spinner";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-const SearchByCategorySection: React.FC<SearchByCategorySectionProps> = ({
-  onOpenModal,
-}) => {
-  const { handleClick, handleKeyDown } = useSearchByCategorySection(onOpenModal);
+const Categories = lazy(() => import("@/pages/Categories/Categories"));
+
+/**
+ * The dialog lives here rather than in `App` now that Radix owns its open
+ * state — the section that triggers it is the only thing that cares. Radix also
+ * brings the focus trap, the inert background and the scroll lock the
+ * hand-rolled portal never had.
+ */
+const SearchByCategorySection = () => {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
 
   return (
-    <section
-      className="content-width flex flex-col items-center justify-center"
-      aria-labelledby="categorySearchHeading"
-    >
-      <h2
-        id="categorySearchHeading"
-        className="text-center text-sm font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400 md:text-base"
-      >
-        Search for facts using Categories
-      </h2>
+    <section aria-labelledby="categorySearchHeading">
+      <Card>
+        <CardHeader>
+          <h2
+            id="categorySearchHeading"
+            className="font-heading text-base font-semibold tracking-tight"
+          >
+            {t("categories.sectionTitle")}
+          </h2>
+        </CardHeader>
 
-      <button
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        className="btn-neumorphic mt-2 w-full p-2 text-lg font-semibold md:text-xl"
-        aria-label="Open categories modal"
-        aria-haspopup="dialog"
-      >
-        Get Categories
-      </button>
+        <CardContent>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button
+                variant="secondary"
+                size="lg"
+                className="w-full"
+                aria-label={t("categories.openAria")}
+              >
+                <LayoutGrid aria-hidden="true" />
+                {t("categories.open")}
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent className="sm:max-w-2xl">
+              {/* Only loads when the dialog first opens — Radix unmounts the
+                  content while closed. */}
+              <Suspense fallback={<DialogLoading />}>
+                <Categories />
+              </Suspense>
+            </DialogContent>
+          </Dialog>
+        </CardContent>
+      </Card>
     </section>
+  );
+};
+
+const DialogLoading = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div
+      className="text-muted-foreground flex items-center justify-center gap-2 py-10"
+      role="status"
+      aria-label={t("categories.loadingAria")}
+    >
+      <Spinner />
+      {t("categories.loading")}
+    </div>
   );
 };
 

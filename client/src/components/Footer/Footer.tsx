@@ -1,35 +1,33 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { useFooter } from "./useFooter";
 
-const Footer: React.FC = () => {
+const Footer = () => {
   const { currentYear } = useFooter();
+  const { t } = useTranslation();
 
   return (
     <footer
-      className="fixed inset-x-0 bottom-0 z-40 flex h-[var(--footer-height)] items-center justify-center
-                border-t border-zinc-400/50 bg-zinc-300/90 px-4 backdrop-blur
-                dark:border-zinc-700 dark:bg-zinc-800/90"
-      aria-label="Site footer"
+      className="bg-background/80 fixed inset-x-0 bottom-0 z-40 flex
+                h-[var(--footer-height)] items-center justify-center border-t
+                px-4 backdrop-blur-md"
+      aria-label={t("footer.label")}
     >
-      <div className="text-center">
-        <cite className="text-xs not-italic text-zinc-700 lg:text-sm dark:text-zinc-300">
-          &copy; {currentYear} Chuck Norris Facts - All rights reserved by{" "}
-          <a
-            href="https://kwk.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="focus-ring rounded font-semibold transition-colors duration-200
-                      hover:text-sky-600 dark:hover:text-sky-400"
-            aria-label="Visit KWK website"
-          >
-            KWK
-          </a>
-        </cite>
-        <p className="sr-only">
-          Chuck Norris facts provided by Chuck Norris IO API
-        </p>
-      </div>
+      <p className="text-muted-foreground text-center text-xs sm:text-sm">
+        {t("footer.rights", { year: currentYear })}{" "}
+        <a
+          href="https://kwk.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-foreground focus-visible:ring-ring rounded font-semibold
+                    underline-offset-4 outline-none transition-colors hover:underline
+                    focus-visible:ring-2"
+          aria-label={t("footer.kwkAria")}
+        >
+          KWK
+        </a>
+      </p>
+      <span className="sr-only">{t("footer.credit")}</span>
     </footer>
   );
 };

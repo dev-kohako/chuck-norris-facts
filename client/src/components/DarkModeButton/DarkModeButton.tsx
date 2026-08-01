@@ -1,35 +1,42 @@
 import { Moon, Sun } from "lucide-react";
-import React from "react";
+import { useTranslation } from "react-i18next";
 
-import { DarkModeButtonProps } from "../../types/types";
+import { Button } from "@/components/ui/button";
+import { DarkModeButtonProps } from "@/types/types";
+
 import { useDarkModeButton } from "./useDarkModeButton";
 
-const DarkModeButton: React.FC<DarkModeButtonProps> = ({
+const DarkModeButton = ({
   onToggleTheme,
   isDarkMode,
-  className = "",
-}) => {
+  className,
+}: DarkModeButtonProps) => {
   const { handleKeyDown } = useDarkModeButton(onToggleTheme);
+  const { t } = useTranslation();
 
   return (
-    <button
+    <Button
+      variant="ghost"
+      size="icon"
       onClick={onToggleTheme}
       onKeyDown={handleKeyDown}
-      className={`focus-ring flex h-8 w-8 items-center justify-center rounded-lg
-                text-zinc-800 transition-colors duration-200 hover:bg-zinc-400/50
-                dark:text-zinc-200 dark:hover:bg-zinc-700/70 ${className}`}
-      aria-label={`Switch to ${isDarkMode ? "light" : "dark"} mode`}
+      className={className}
+      aria-label={t("theme.switchTo", {
+        mode: isDarkMode ? t("theme.light") : t("theme.dark"),
+      })}
       aria-pressed={isDarkMode}
     >
-      <span className="sr-only">{isDarkMode ? "Light" : "Dark"} Mode</span>
-      {/* `currentColor` keeps the icon on the button's own colour instead of the
-          two hard-coded hexes, which ignored hover and forced-colours modes. */}
+      <span className="sr-only">
+        {isDarkMode ? t("theme.lightLabel") : t("theme.darkLabel")}
+      </span>
+      {/* `currentColor` keeps the icon on the button's own colour instead of two
+          hard-coded hexes, which ignored hover and forced-colours modes. */}
       {isDarkMode ? (
-        <Sun className="h-5 w-5" aria-hidden="true" />
+        <Sun className="size-[1.1rem]" aria-hidden="true" />
       ) : (
-        <Moon className="h-5 w-5" aria-hidden="true" />
+        <Moon className="size-[1.1rem]" aria-hidden="true" />
       )}
-    </button>
+    </Button>
   );
 };
 
