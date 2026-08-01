@@ -1,0 +1,69 @@
+{
+  "app": {
+    "title": "Chuck Norris Facts",
+    "tagline": "Roundhouse-kicked straight from the API."
+  },
+  "header": {
+    "homepage": "Go to homepage",
+    "nav": "Primary navigation",
+    "language": "Language",
+    "changeLanguage": "Change language"
+  },
+  "theme": {
+    "switchTo": "Switch to {{mode}} mode",
+    "light": "light",
+    "dark": "dark",
+    "lightLabel": "Light Mode",
+    "darkLabel": "Dark Mode"
+  },
+  "randomFact": {
+    "title": "Chuck Norris Random Fact",
+    "loading": "Loading a new Fact...",
+    "button": "Get a New Fact",
+    "buttonAria": "Get a new random Chuck Norris fact",
+    "loadingAria": "Loading fact"
+  },
+  "categories": {
+    "sectionTitle": "Search for facts using Categories",
+    "open": "Get Categories",
+    "openAria": "Open categories modal",
+    "dialogLabel": "Chuck Norris fact categories",
+    "title": "Categories",
+    "listAria": "Chuck Norris fact categories",
+    "loading": "Loading Categories...",
+    "loadingAria": "Loading categories",
+    "loadError": "Error loading categories: {{message}}",
+    "factLoading": "Loading {{category}} fact...",
+    "factAbout": "Fact about {{category}}:",
+    "factError": "Error loading fact: {{message}}",
+    "empty": "Select a category to view a fact",
+    "getFactAria": "Get fact about {{category}}"
+  },
+  "search": {
+    "sectionTitle": "Get Facts by Free Text",
+    "formAria": "Search Chuck Norris facts",
+    "label": "Search for Chuck Norris facts",
+    "placeholder": "Enter your search term",
+    "submit": "Get Fact",
+    "submitting": "Searching...",
+    "submitAria": "Search for facts",
+    "submittingAria": "Searching for facts...",
+    "srSearching": "Searching",
+    "loading": "Loading Fact...",
+    "resultTitle": "Search Result:",
+    "empty": "No facts found for your search. Try a different term.",
+    "required": "Please enter a search query."
+  },
+  "footer": {
+    "rights": "© {{year}} Chuck Norris Facts - All rights reserved by",
+    "kwkAria": "Visit KWK website",
+    "credit": "Chuck Norris facts provided by Chuck Norris IO API",
+    "label": "Site footer"
+  },
+  "common": {
+    "errorPrefix": "Error:",
+    "loadingContent": "Loading content",
+    "mascotAlt": "Chuck Norris dancing animation",
+    "closeModal": "Close modal"
+  }
+}
