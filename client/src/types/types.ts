@@ -19,9 +19,9 @@ export interface SearchByCategorySectionProps {
 }
 
 export interface ModalProps {
-  isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  /** Accessible name for the dialog. */
   ariaLabel?: string;
 }
 
@@ -29,9 +29,4 @@ export interface DarkModeButtonProps {
   onToggleTheme: () => void;
   isDarkMode: boolean;
   className?: string;
-}
-
-export interface ModalState {
-  show: boolean;
-  isMounted: boolean;
 }

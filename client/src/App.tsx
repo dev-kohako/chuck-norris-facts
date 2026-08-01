@@ -40,9 +40,8 @@ const App: React.FC = () => {
         {isModalOpen && (
           <Suspense fallback={<LoadingBackdrop />}>
             <Modal
-              isOpen={isModalOpen}
               onClose={closeModal}
-              aria-labelledby="categories-modal-title"
+              ariaLabel="Chuck Norris fact categories"
             >
               <Categories />
             </Modal>
