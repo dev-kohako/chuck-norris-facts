@@ -2,13 +2,119 @@
 @tailwind components;
 @tailwind utilities;
 
-::-webkit-scrollbar-track {
-    background-color: #F4F4F4;
+@layer base {
+  :root {
+    /* The header and footer are fixed, so the page has to reserve their height
+       instead of guessing at it with a blanket padding. */
+    --header-height: 3rem;
+    --footer-height: 2.5rem;
+
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-zinc-200 text-zinc-800 antialiased dark:bg-zinc-800 dark:text-zinc-200;
+  }
+
+  /* The track and thumb were pinned to light greys, which left a pale bar down
+     the side of every dark-mode page.
+
+     `.dark` carries the class itself and also has to cover its descendants:
+     `.dark *` alone never matches the root scroller, which is the one the page
+     actually shows. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme("colors.zinc.400") transparent;
+  }
+
+  .dark,
+  .dark * {
+    scrollbar-color: theme("colors.zinc.600") transparent;
+  }
+
+  /* Safari has no standard scrollbar properties yet. */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: theme("colors.zinc.400");
+  }
+
+  .dark::-webkit-scrollbar-thumb,
+  .dark ::-webkit-scrollbar-thumb {
+    background-color: theme("colors.zinc.600");
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: theme("colors.zinc.500");
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
-::-webkit-scrollbar {
-    width: 6px;
-    background: #F4F4F4;
-}
-::-webkit-scrollbar-thumb {
-    background: #b1aeae;
+
+@layer components {
+  /* Every section carried its own copy of this responsive ladder, and they had
+     drifted — one of them also pinned `min-w` to the same values, which does
+     nothing next to `w-full`. */
+  .content-width {
+    @apply w-full max-w-[85%] sm:max-w-[80%] md:max-w-[70%] sm:landscape:max-w-[70%] md:landscape:max-w-[60%] xl:landscape:max-w-[40%];
+  }
+
+  /* The three surface treatments below were previously spelled out inline on
+     every card, panel and button — the same forty-odd utilities repeated a
+     dozen times, which is how they drifted apart. */
+  .surface {
+    @apply bg-gradient-to-tl from-zinc-300 to-zinc-200 shadow-neumorphism dark:from-zinc-800 dark:to-zinc-700 dark:shadow-dark-neumorphism;
+  }
+
+  .surface-raised {
+    @apply bg-gradient-to-tl from-zinc-300 to-zinc-200 shadow-button-neumorphism dark:from-zinc-800 dark:to-zinc-700 dark:shadow-dark-button-neumorphism;
+  }
+
+  .surface-pressed {
+    @apply bg-gradient-to-tl from-zinc-300 to-zinc-200 shadow-pressed dark:from-zinc-800 dark:to-zinc-700 dark:shadow-dark-pressed;
+  }
+
+  /* focus-visible rather than focus: the ring is for keyboard users and was
+     firing on every mouse click. */
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-200 dark:focus-visible:ring-offset-zinc-800;
+  }
+
+  .btn-neumorphic {
+    @apply surface-raised focus-ring rounded-lg text-zinc-700 transition-[color,box-shadow] duration-150 hover:text-sky-600 active:shadow-pressed dark:text-zinc-200 dark:hover:text-sky-400 dark:active:shadow-dark-pressed;
+  }
+
+  .spinner-ring {
+    @apply inline-block rounded-full border-2 border-zinc-500/50 border-t-sky-500 dark:border-zinc-400/50 dark:border-t-sky-400;
+  }
+
+  /* sky-500 on a light zinc background sits just under 4.5:1; these clear it
+     in both themes. */
+  .text-accent {
+    @apply text-sky-600 dark:text-sky-400;
+  }
+
+  .text-danger {
+    @apply text-red-700 dark:text-red-400;
+  }
 }
