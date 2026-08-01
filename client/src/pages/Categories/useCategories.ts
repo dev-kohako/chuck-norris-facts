@@ -1,8 +1,9 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { CategoriesData, FactDataCategory } from "../../types/types";
-import { useCallback, useState } from "react";
-import { GET_CHUCK_NORRIS_CATEGORIES } from "../../queries/getChuckNorrisCategories";
+import { useState } from "react";
+
 import { GET_CHUCK_NORRIS_FACT_BY_CATEGORY } from "../../queries/getChuckNorrisByCategories";
+import { GET_CHUCK_NORRIS_CATEGORIES } from "../../queries/getChuckNorrisCategories";
+import { CategoriesData, FactDataCategory } from "../../types/types";
 
 export const useCategories = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -16,28 +17,21 @@ export const useCategories = () => {
   const [getFact, { loading: factLoading, data: factData, error: factError }] =
     useLazyQuery<FactDataCategory>(GET_CHUCK_NORRIS_FACT_BY_CATEGORY, {
       fetchPolicy: "network-only",
-      onError: (error) => {
-        console.error("Error fetching fact:", error.message);
-      },
     });
 
-  const handleCategoryClick = useCallback(
-    (category: string) => {
-      setSelectedCategory(category);
-      getFact({ variables: { category } });
-    },
-    [getFact]
-  );
+  // The React Compiler memoizes both handlers, so their identities stay stable
+  // across renders without `useCallback` wrappers.
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+    getFact({ variables: { category } });
+  };
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent, category: string) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        handleCategoryClick(category);
-      }
-    },
-    [handleCategoryClick]
-  );
+  const handleKeyDown = (e: React.KeyboardEvent, category: string) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleCategoryClick(category);
+    }
+  };
 
   return {
     selectedCategory,
